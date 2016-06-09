@@ -26,6 +26,7 @@ page2 = do
 page3 = do
   H.head $ do
     hl_head
+    H.title "Download the Haskell Platform"
     hp_head
   body ! class_ "page-home" $ do
     H.div ! class_ "wrap" $ do
@@ -50,11 +51,13 @@ page3 = do
               linux_download
               osx_download
               windows_download
-              
+    hl_footer  -- same level as the "wrap" class div
+
+pretty page = do
+  writeFile "pretty-out.html" $ RP.renderHtml page
+  putStrLn "output written to pretty-out.html"
 
 render page = do
-  writeFile "/tmp/out.html" $ RS.renderHtml page
-  putStrLn "output written to /tmp/out.html"
-
-test1 = writeFile "/tmp/out.html" $ RP.renderHtml page1
+  writeFile "out.html" $ RS.renderHtml page
+  putStrLn "output written to out.html"
 

@@ -5,17 +5,20 @@ where
 
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html4.Strict.Attributes as A
+import HaskellOrg (hl_src, hl_href)
 
 hp_head = do
-    link ! href  "/platform/stylesheets/download.css" ! rel "stylesheet" ! type_ "text/css"
+    link ! hl_href  "/platform/stylesheets/download.css" ! rel "stylesheet" ! type_ "text/css"
     link ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ! rel "stylesheet" ! type_ "text/css"
     H.style $ do
       ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; } "
       ".hp-summary { margin-top: 20px; display: block; font-size: 20px; }"
+    script ! hl_src "/platform/js/jquery-1.11.1.min.js" $ mempty
+    script ! src "js/download.js" $ mempty
 
 banner_left = do
     H.div $ do
-        H.span ! A.style "background-image: url(platform/img/logo.png)" ! class_ "hp-branding" $ "Haskell Platform"
+        H.span ! A.style "background-image: url(img/logo.png)" ! class_ "hp-branding" $ "Haskell Platform"
         H.span ! class_ "hp-summary" $ "Haskell with batteries included"
 
 banner_right = do
@@ -23,21 +26,21 @@ banner_right = do
     p "designed to get you up and running quickly, making it easy to focus on using Haskell. You get:"
     ul $ do
         li $ do
-            "the"
+            "the "
             a ! href "http://www.haskell.org/ghc/" $ "Glasgow Haskell Compiler"
         li $ do
-            "the"
+            "the "
             a ! href "http://www.haskell.org/cabal/" $ "Cabal build system"
         li $ do
-            "the"
+            "the "
             a ! href "http://docs.haskellstack.org" $ "Stack tool"
-            "for developing projects"
+            " for developing projects"
         li "support for profiling and code coverage analysis"
         li $ do
-            "35 core & widely-used"
+            "35 core & widely-used "
             a ! href "contents.html" $ "packages"
     a ! href "prior.html" $ "Prior releases"
-    "of the Platform are also available."
+    " of the Platform are also available."
 
 getting_started = do
     h2 ! A.id "get-started" $ "Let's get started"
@@ -51,11 +54,11 @@ getting_started = do
 
 found_user_platform = do
     H.div ! class_ "container found-user-platform" $ do
-        "You appear to be using"
+        "You appear to be using "
         strong "Linux"
-        ". See"
+        ". See "
         a ! href "#other-platforms" $ "below"
-        "for other operating systems."
+        " for other operating systems."
 
 unknown_user_platform = do
     H.div ! class_ "container unknown-user-platform" $ "Find your operating system of choice below and follow the instructions to install the Haskell Platform on your system."
@@ -63,25 +66,25 @@ unknown_user_platform = do
 platform_toc = do
     H.div ! class_ "container platform-toc" $ ul $ do
         li $ a ! href "#osx" $ do
-            img ! src "platform/img/os-osx.svg" ! alt "Mac OS X logo"
+            img ! hl_src "platform/img/os-osx.svg" ! alt "Mac OS X logo"
             "Mac OS X"
         li $ a ! href "#windows" $ do
-            img ! src "platform/img/os-windows.svg" ! alt "Windows logo"
+            img ! hl_src "platform/img/os-windows.svg" ! alt "Windows logo"
             "Windows"
         li $ a ! href "#linux" $ do
-            img ! src "platform/img/os-linux.svg" ! alt "Linux logo"
+            img ! hl_src "platform/img/os-linux.svg" ! alt "Linux logo"
             "Linux"
 
 
 linux_download = do
   H.section ! class_ "downloads-platform container preferred-platform visible" ! dataAttribute "os" "linux" ! A.id "linux" $ do
       H.div ! class_ "platform-name" $ do
-          img ! src "platform/img/os-linux.svg" ! alt "Linux logo"
+          img ! hl_src "platform/img/os-linux.svg" ! alt "Linux logo"
           h2 "Linux"
       a ! class_ "expander" ! href "#linux" $ H.div $ do
-          img ! src "platform/img/expand-piece.svg" ! class_ "expand-1"
-          img ! src "platform/img/expand-piece.svg" ! class_ "expand-2"
-          img ! src "platform/img/expand-piece.svg" ! class_ "expand-3"
+          img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-1"
+          img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-2"
+          img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-3"
       H.div ! class_ "sidebar flavors" $ do
           strong "Choose your distribution"
           ul $ do
@@ -89,28 +92,28 @@ linux_download = do
                   H.span ! class_ "logo" $ i ! class_ "fa fa-cogs" $ mempty
                   "Generic"
               li $ a ! href "#linux-ubuntu" $ do
-                  img ! alt "Ubuntu logo" ! class_ "logo" ! src "platform/img/distro-ubuntu.svg"
+                  img ! alt "Ubuntu logo" ! class_ "logo" ! hl_src "platform/img/distro-ubuntu.svg"
                   "Ubuntu"
               li $ a ! href "#linux-debian" $ do
-                  img ! alt "Debian logo" ! class_ "logo" ! src "platform/img/distro-debian.svg"
+                  img ! alt "Debian logo" ! class_ "logo" ! hl_src "platform/img/distro-debian.svg"
                   "Debian"
               li $ a ! href "#linux-redhat" $ do
-                  img ! alt "Redhat logo" ! class_ "logo" ! src "platform/img/distro-redhat.svg"
+                  img ! alt "Redhat logo" ! class_ "logo" ! hl_src "platform/img/distro-redhat.svg"
                   "Redhat"
               li $ a ! href "#linux-fedora" $ do
-                  img ! alt "Fedora logo" ! class_ "logo" ! src "platform/img/distro-fedora.svg"
+                  img ! alt "Fedora logo" ! class_ "logo" ! hl_src "platform/img/distro-fedora.svg"
                   "Fedora"
               li $ a ! href "#linux-mint" $ do
-                  img ! alt "Linux Mint logo" ! class_ "logo" ! src "platform/img/distro-mint.svg"
+                  img ! alt "Linux Mint logo" ! class_ "logo" ! hl_src "platform/img/distro-mint.svg"
                   "Mint"
               li $ a ! href "#linux-gentoo" $ do
-                  img ! alt "Gentoo Linux logo" ! class_ "logo" ! src "platform/img/distro-gentoo.svg"
+                  img ! alt "Gentoo Linux logo" ! class_ "logo" ! hl_src "platform/img/distro-gentoo.svg"
                   "Gentoo"
               li $ a ! href "#linux-source" $ do
                   H.span ! class_ "logo" $ i ! class_ "fa fa-code" $ mempty
                   "From Source"
           p ! class_ "select-generic" $ do
-              "If you can't find your distribution then select"
+              "If you can't find your distribution then select "
               strong "Generic"
               "."
       H.div ! class_ "content" $ do
@@ -121,11 +124,11 @@ linux_download = do
           H.div ! A.id "linux-generic" ! class_ "flavor" $ do
               h3 "Generic Linux"
               p $ do
-                  "This is a"
+                  "This is a "
                   strong "generic"
-                  "distribution of the Haskell Platform. While it should work on most modern Linux distributions, you may want to investigate use one of the distribution-specific options listed on the right."
+                  " distribution of the Haskell Platform. While it should work on most modern Linux distributions, you may want to investigate use one of the distribution-specific options listed on the right."
               p $ do
-                  "The latest version of the Haskell Platform for Linux is"
+                  "The latest version of the Haskell Platform for Linux is "
                   strong "8.0.1"
                   "."
               p "To get started perform these steps,"
@@ -147,7 +150,7 @@ linux_download = do
                               i ! class_ "fa fa-download" $ mempty
                               "Download Full (32 bit)"
                           H.div $ do
-                              "You can verify the authenticity of this file by checking its"
+                              "You can verify the authenticity of this file by checking its "
                               strong "SHA-256"
                               "hash,"
                               ul ! class_ "hashes" $ do
@@ -240,7 +243,7 @@ linux_download = do
                               i ! class_ "fa fa-download" $ mempty
                               "Download"
                           H.div $ do
-                              "You can verify the authenticity of this file by checking its"
+                              "You can verify the authenticity of this file by checking its "
                               strong "SHA-256"
                               "hash,"
                               ul ! class_ "hashes" $ li $ input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "38af99a9ae4afce56df75a753a19e7a4986bfbc8ce22f93b8308b5ab9e5a19c6"
@@ -257,12 +260,12 @@ linux_download = do
 osx_download = do
     section ! class_ "downloads-platform container" ! dataAttribute "os" "osx" ! A.id "osx" $ do
         H.div ! class_ "platform-name" $ do
-            img ! src "platform/img/os-osx.svg" ! alt "Mac OS X logo"
+            img ! hl_src "platform/img/os-osx.svg" ! alt "Mac OS X logo"
             h2 "Mac OS X"
         a ! class_ "expander" ! href "#osx" $ H.div $ do
-            img ! src "platform/img/expand-piece.svg" ! class_ "expand-1"
-            img ! src "platform/img/expand-piece.svg" ! class_ "expand-2"
-            img ! src "platform/img/expand-piece.svg" ! class_ "expand-3"
+            img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-1"
+            img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-2"
+            img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-3"
         H.div ! class_ "sidebar flavors" $ do
             strong "Choose your package manager"
             ul $ do
@@ -270,17 +273,17 @@ osx_download = do
                     H.span ! class_ "logo" $ i ! class_ "fa fa-cogs" $ mempty
                     "None"
                 li $ a ! href "#osx-macports" $ do
-                    img ! alt "MacPorts logo" ! class_ "logo" ! src "platform/img/distro-macports.png"
+                    img ! alt "MacPorts logo" ! class_ "logo" ! hl_src "platform/img/distro-macports.png"
                     "MacPorts"
                 li $ a ! href "#osx-homebrewcask" $ do
-                    img ! alt "Homebrew logo" ! class_ "logo" ! src "platform/img/distro-homebrew.png"
+                    img ! alt "Homebrew logo" ! class_ "logo" ! hl_src "platform/img/distro-homebrew.png"
                     "Homebrew"
         H.div ! class_ "content" $ do
             H.div ! A.id "osx-none" ! class_ "flavor active" $ do
                 p $ do
-                    "The latest version of the Haskell Platform for Mac OS X is"
+                    "The latest version of the Haskell Platform for Mac OS X is "
                     strong "8.0.1"
-                    ". Note that the Haskell Platform is only compatible with"
+                    ". Note that the Haskell Platform is only compatible with "
                     strong "OS X 10.6 and later"
                     "."
                 p "These packages are for Mac OS X systems not using a package manager. If you would rather install with MacPorts or Homebrew then select the appropriate option to the right. (Note that those distributions may lag behind official platform installers)."
@@ -298,7 +301,7 @@ osx_download = do
                                 i ! class_ "fa fa-download" $ mempty
                                 "Download Full (64 bit)"
                             H.div ! class_ "download-hash" $ do
-                                "You can verify the authenticity of this file by checking its"
+                                "You can verify the authenticity of this file by checking its "
                                 strong "SHA-256"
                                 "hash,"
                                 ul ! class_ "hashes" $ do
@@ -336,15 +339,15 @@ osx_download = do
 windows_download = do
     section ! class_ "downloads-platform container" ! dataAttribute "os" "windows" ! A.id "windows" $ do
         H.div ! class_ "platform-name" $ do
-            img ! src "platform/img/os-windows.svg" ! alt "Windows logo"
+            img ! hl_src "platform/img/os-windows.svg" ! alt "Windows logo"
             h2 "Windows"
         a ! class_ "expander" ! href "#windows" $ H.div $ do
-            img ! src "platform/img/expand-piece.svg" ! class_ "expand-1"
-            img ! src "platform/img/expand-piece.svg" ! class_ "expand-2"
-            img ! src "platform/img/expand-piece.svg" ! class_ "expand-3"
+            img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-1"
+            img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-2"
+            img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-3"
         H.div ! class_ "content" $ do
             p $ do
-                "The latest version of the Haskell Platform for Windows is"
+                "The latest version of the Haskell Platform for Windows is "
                 strong "8.0.1"
                 "."
             p "To get started perform these steps,"
@@ -366,7 +369,7 @@ windows_download = do
                             i ! class_ "fa fa-download" $ mempty
                             "Download Full (64 bit)"
                         H.div $ do
-                            "You can verify the authenticity of this file by checking its"
+                            "You can verify the authenticity of this file by checking its "
                             strong "SHA-256"
                             "hash,"
                             ul ! class_ "hashes" $ do
