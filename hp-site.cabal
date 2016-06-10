@@ -15,7 +15,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib, HaskellPlatform, HaskellOrg
+  exposed-modules:     Lib, HaskellPlatform, HaskellOrg, ReleaseFiles
+                       , Render.Base, Render.Linux, Render.OSX, Render.Windows
   build-depends:       base >= 4.7 && < 5,
                        bytestring, text, blaze-markup, blaze-builder, blaze-html
   default-language:    Haskell2010
