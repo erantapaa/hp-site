@@ -8,7 +8,7 @@ import Text.Blaze.Html4.Strict.Attributes as A
 import HaskellOrg (hl_src, hl_href)
 
 hp_head = do
-    link ! hl_href  "/platform/stylesheets/download.css" ! rel "stylesheet" ! type_ "text/css"
+    link ! href  "download.css" ! rel "stylesheet" ! type_ "text/css"
     link ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ! rel "stylesheet" ! type_ "text/css"
     H.style $ do
       ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; } "
@@ -43,14 +43,44 @@ banner_right = do
     " of the Platform are also available."
 
 getting_started = do
-    h2 ! A.id "get-started" $ "Let's get started"
+    h2 ! A.id "get-started" $ "Welcome to Haskell!"
     p $ do
+      "The Haskell Platform 8.0.1 is available in two versions:"
+    H.div ! class_ "variety-wrapper" $ do
+      H.div ! class_ "variety-row" $ do
+        H.div ! class_ "variety-col1" $ do
+          strong "Full"
+        H.div ! class_ "variety-col2" $ do
+         "the Platform with the complete library of pre-compiled packages"
+      H.div ! class_ "variety-row" $ do
+        H.div ! class_ "variety-col1" $ do
+          strong "Minimal"
+        H.div ! class_ "variety-col2" $ do
+         "GHC, profiling and development tools with a minimal set of library packages"
+
+    p $ do
+      "The " >> strong "Minimal" >> " version is recommended for those users who"
+      " intend to install additional packages from Hackage. The "
+      strong "Full"
+      " version is made available for those accustomed to previous versions of the Platform which included a broader set of pre-compiled packages."
+
+    p $ do
+      "Both versions contain the "
+      code $ "stack"
+      " development tool. The tool can upgrade itself to the latest version with "
+      code "stack upgrade"
+      ". Users should also consult "
+      a ! href "http://docs.haskellstack.org/en/stable/install_and_upgrade/#path" $ "Stack User's Guide"
+      " for more details on configuring the PATH environment variable for use with Stack."
+
+{-
         b "Note:"
-        "as of 8.0.1 there are two download options available — minimal and full. The minimal option is currently the generally recommended one. It does not include any additional global libraries beyond those packaged with ghc, though it does include all tools. This ensures maximal compatibility with a variety of library sets. The full option is useful for those who prefer the \"classic\" platform behavior with a broader set of preinstalled libraries, and especially serves those well who want full-featured installers in situations where network connectivity should not be taken for granted."
+        " as of 8.0.1 there are two download options available — minimal and full. The minimal option is currently the generally recommended one. It does not include any additional global libraries beyond those packaged with ghc, though it does include all tools. This ensures maximal compatibility with a variety of library sets. The full option is useful for those who prefer the \"classic\" platform behavior with a broader set of preinstalled libraries, and especially serves those well who want full-featured installers in situations where network connectivity should not be taken for granted."
     p $ do
-        "Note also: the stack tool has been evolving relatively rapidly. Users who wish to ensure they are running the latest version may want to consider running \"stack update\" and ensuring the proper"
-        a ! href "http://docs.haskellstack.org/en/stable/install_and_upgrade/#path" $ "path"
-        "for stack-installed binaries is in their environment."
+        "Note also: the stack tool has been evolving relatively rapidly. Users who wish to ensure they are running the latest version may want to consider running \"stack update\" and ensuring the proper "
+        a ! href "http://docs.haskellstack.org/en/stable/install_and_upgrade/#path" $ "path" 
+        " for stack-installed binaries is in their environment."
+-}
 
 found_user_platform = do
     H.div ! class_ "container found-user-platform" $ do
@@ -87,7 +117,7 @@ linux_download = do
           img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-3"
       H.div ! class_ "sidebar flavors" $ do
           strong "Choose your distribution"
-          ul $ do
+          ul ! class_ "choose-distrbution" $ do
               li $ a ! href "#linux-generic" $ do
                   H.span ! class_ "logo" $ i ! class_ "fa fa-cogs" $ mempty
                   "Generic"
@@ -124,9 +154,9 @@ linux_download = do
           H.div ! A.id "linux-generic" ! class_ "flavor" $ do
               h3 "Generic Linux"
               p $ do
-                  "This is a "
+                  "The "
                   strong "generic"
-                  " distribution of the Haskell Platform. While it should work on most modern Linux distributions, you may want to investigate use one of the distribution-specific options listed on the right."
+                  " distribution of the Haskell Platform is designed to work with any modern Linux."
               p $ do
                   "The latest version of the Haskell Platform for Linux is "
                   strong "8.0.1"
@@ -136,10 +166,12 @@ linux_download = do
                   li $ do
                       H.div ! class_ "step-number" $ "1"
                       H.div ! class_ "step-body" $ do
-                          p "Download the installation tarball,"
-                          H.div ! class_ "download-btn" $ a ! href "//haskell.org/platform/download/8.0.1/haskell-platform-8.0.1-unknown-posix--minimal-x86_64.tar.gz" ! onclick "return dl(this)" ! class_ "btn btn-haskell" $ do
-                              i ! class_ "fa fa-download" $ mempty
-                              "Download Minimal (64 bit)"
+                          p "Select a version:"
+                          H.div ! class_ "download-btn" $ do
+                              a ! href "//haskell.org/platform/download/8.0.1/haskell-platform-8.0.1-unknown-posix--minimal-x86_64.tar.gz" ! onclick "return dl(this)" ! class_ "btn btn-haskell" $ do
+                                  i ! class_ "fa fa-download" $ mempty
+                                  "Download Minimal (64 bit)"
+
                           H.div ! class_ "download-btn" $ a ! href "//haskell.org/platform/download/8.0.1/haskell-platform-8.0.1-unknown-posix--full-x86_64.tar.gz" ! onclick "return dl(this)" ! class_ "btn btn-haskell" $ do
                               i ! class_ "fa fa-download" $ mempty
                               "Download Full (64 bit)"
@@ -150,109 +182,142 @@ linux_download = do
                               i ! class_ "fa fa-download" $ mempty
                               "Download Full (32 bit)"
                           H.div $ do
-                              "You can verify the authenticity of this file by checking its "
                               strong "SHA-256"
-                              "hash,"
+                              " hashes:"
+
+{-
+                              table $ do
+                                tr $ do
+                                  td $ "64 bit Minimal:"
+                                  td $ input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "adec8e8f2e2440d7f506f1cb9aaf20496cd443660e55c0d588f28a0119171f8a" 
+
+                                tr $ do 
+                                  td $ "64 bit Full:"
+                                  td $ input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "d747aaa51eb20a7c8b4de93fa2a0d07c3b54fc5f36bf50fcede1a332812656f7"
+
+                                tr $ do
+                                  td $ "32 bit Minimal:"
+                                  td $ input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "1476ec7fda53654fe97118ded44333b091160fc5f4588c2ad7a0f8145c254d14" 
+
+                                tr $ do
+                                  td $ "32 bit Full:"
+                                  td $ input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "4643123f51401489d99302c150dc763f1d92614c428b921257b375f3895f7a79" 
+-}
+
                               ul ! class_ "hashes" $ do
                                   li $ do
-                                      "64 bit Minimal:"
+                                      H.span $ "64 bit Minimal:"
                                       input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "adec8e8f2e2440d7f506f1cb9aaf20496cd443660e55c0d588f28a0119171f8a"
                                   li $ do
-                                      "64 bit Full:"
+                                      H.span $ "64 bit Full:"
                                       input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "d747aaa51eb20a7c8b4de93fa2a0d07c3b54fc5f36bf50fcede1a332812656f7"
                                   li $ do
-                                      "32 bit Minimal:"
+                                      H.span $ "32 bit Minimal:"
                                       input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "1476ec7fda53654fe97118ded44333b091160fc5f4588c2ad7a0f8145c254d14"
                                   li $ do
-                                      "32 bit Full:"
+                                      H.span $ "32 bit Full:"
                                       input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "4643123f51401489d99302c150dc763f1d92614c428b921257b375f3895f7a79"
+
                   li $ do
                       H.div ! class_ "step-number" $ "2"
                       H.div ! class_ "step-body" $ do
-                          "Install by running:"
+                          "Complete installation by running:"
                           pre "$ tar xf ...downloaded archive...\n$ sudo ./install-haskell-platform.sh"
           --  #linux-generic 
           H.div ! A.id "linux-ubuntu" ! class_ "flavor" $ do
               h3 "Ubuntu"
               p $ do
-                  "Good news! Haskell Platform is already available in your distribution's package"
-                  a ! href "http://packages.ubuntu.com/search?keywords=haskell-platform" $ "repository"
-                  "."
-              p "Simply run,"
-              pre "$ sudo apt-get install haskell-platform"
+                  "The Haskell Platform may be installed using "
+                  code "apt-get"
+                  " with the following command:"
+              pre "$ sudo apt-get install haskell-platform haskell-platform-doc haskell-platform-prof"
+              p $ do
+                  "Please consult the "
+                  a ! href "http://packages.ubuntu.com/search?keywords=haskell-platform" $ "Ubuntu repository"
+                  " for the version of the Haskell Platform available for your system."
           --  #linux-ubuntu 
           H.div ! A.id "linux-debian" ! class_ "flavor" $ do
               h3 "Debian"
               p $ do
-                  "Good news! Haskell Platform is already available in your distribution's package"
-                  a ! href "https://packages.debian.org/search?keywords=haskell-platform" $ "repository"
-                  "."
-              p "Simply run,"
-              pre "$ sudo apt-get install haskell-platform"
+                  "The Haskell Platform may be installed using "
+                  code "apt-get"
+                  " with the following command:"
+              pre "$ sudo apt-get install haskell-platform haskell-platform-doc haskell-platform-prof"
+              p $ do
+                  "Please consult the "
+                  a ! href "https://packages.debian.org/search?keywords=haskell-platform" $ "Debian repository"
+                  " for the version of the Haskell Platform available for your system."
           --  #linux-debian 
           H.div ! A.id "linux-mint" ! class_ "flavor" $ do
               h3 "Linux Mint"
               p $ do
-                  "Good news! Haskell Platform is already available in your distribution's package"
-                  a ! href "http://community.linuxmint.com/software/view/haskell-platform" $ "repository"
-                  "."
-              p "Simply run,"
+                  "The Haskell Platform may be installed using "
+                  code "apt-get"
+                  " with the following command:"
               pre "$ sudo apt-get install haskell-platform"
+              p $ do
+                  "Please consult the "
+                  a ! href "http://community.linuxmint.com/software/view/haskell-platform" $ "Mint repository"
+                  " for the version of the Haskell Platform available for your system."
           --  #linux-mint 
           H.div ! A.id "linux-redhat" ! class_ "flavor" $ do
               h3 "Redhat"
-              p "Good news! Haskell Platform is already available in your distribution's package repository."
-              p "Simply run,"
+              p $ do
+                  "The Haskell Platform may be installed using"
+                  " " >> code "yum" >> " "
+                  "with the following command:"
               pre "$ sudo yum install haskell-platform"
+              p $ do
+                  "Please consult the Red Hat package repository for the version of the Haskell Platform available for your system."
           --  #linux-redhat 
           H.div ! A.id "linux-fedora" ! class_ "flavor" $ do
               h3 "Fedora"
               p $ do
-                  "Good news! Haskell Platform is already available in your distribution's package"
-                  a ! href "https://admin.fedoraproject.org/pkgdb/package/haskell-platform/" $ "repository"
-                  "."
-              p "Simply run,"
+                  "The Haskell Platform may be installed using the " >> code "dnf" >> " "
+                  "command with:"
               pre "$ sudo dnf install haskell-platform"
+              p $ do
+                  "Please consult the "
+                  a ! href "https://admin.fedoraproject.org/pkgdb/package/haskell-platform/" $ "Fedora repository"
+                  " for the version of the Haskell Platform available for your system."
           --  #linux-fedora 
           H.div ! A.id "linux-gentoo" ! class_ "flavor" $ do
               h3 "Gentoo"
-              p "Good news! Haskell Platform is already available in your distribution's package repository."
               p $ do
-                  "While there is a"
+                  "While there is a "
                   code "haskell-platform"
-                  "ebuild included in the main Portage tree, it is recommended that one uses the more up-to-date"
-                  a ! href "https://github.com/gentoo-haskell/gentoo-haskell/tree/master/dev-haskell/haskell-platform" $ code "gentoo-haskell"
-                  "overlay. This can be done using"
+                  " ebuild included in the main Portage tree, it is recommended that one uses the more up-to-date"
+                  a ! href "https://github.com/gentoo-haskell/gentoo-haskell/tree/master/dev-haskell/haskell-platform" $ " " >> code "gentoo-haskell" >> " "
+                  "overlay. This can be done using "
                   code "layman"
-                  ","
+                  ":"
               pre "$ sudo layman -a haskell\n$ sudo emerge haskell-platform"
               p $ do
-                  "More details can be found in the"
+                  "More details can be found in the "
                   a ! href "https://wiki.haskell.org/Gentoo/HaskellPlatform" $ "Wiki"
                   "."
           --  #linux-gentoo 
           H.div ! A.id "linux-source" ! class_ "flavor" $ do
               h3 "Build from source"
-              p "If we don't have a binary package suitable for your distribution you can build the Haskell Platform from source."
+              p "To build the Haskell Platform from source:"
               ol ! class_ "install-steps" $ do
                   li $ do
                       H.div ! class_ "step-number" $ "1"
                       H.div ! class_ "step-body" $ do
-                          p "Download and extract the source tarball,"
+                          p "Download the source archive:"
                           H.div ! class_ "download-btn" $ a ! href "//haskell.org/platform/download/8.0.1/haskell-platform-8.0.1.tar.gz" ! onclick "return dl(this)" ! class_ "btn btn-haskell" $ do
                               i ! class_ "fa fa-download" $ mempty
                               "Download"
                           H.div $ do
-                              "You can verify the authenticity of this file by checking its "
                               strong "SHA-256"
-                              "hash,"
+                              " hash:"
                               ul ! class_ "hashes" $ li $ input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "38af99a9ae4afce56df75a753a19e7a4986bfbc8ce22f93b8308b5ab9e5a19c6"
                   li $ do
                       H.div ! class_ "step-number" $ "2"
                       H.div ! class_ "step-body" $ p $ do
-                          "See the"
+                          "Unpack the archive and consult the "
                           code "README"
-                          "file for build instructions."
+                          " file for build instructions."
           --  #linux-source 
       --  linux .content 
       H.div ! class_ "bottom-rule" $ mempty
@@ -283,8 +348,8 @@ osx_download = do
                 p $ do
                     "The latest version of the Haskell Platform for Mac OS X is "
                     strong "8.0.1"
-                    ". Note that the Haskell Platform is only compatible with "
-                    strong "OS X 10.6 and later"
+                    "and is only compatible with "
+                    strong "OS X 10.6 or later"
                     "."
                 p "These packages are for Mac OS X systems not using a package manager. If you would rather install with MacPorts or Homebrew then select the appropriate option to the right. (Note that those distributions may lag behind official platform installers)."
                 p "To get started perform these steps,"
@@ -292,7 +357,7 @@ osx_download = do
                     li $ do
                         H.div ! class_ "step-number" $ "1"
                         H.div ! class_ "step-body" $ do
-                            "Download the installer disk image,"
+                            "Select a DMG installer:"
                             p mempty
                             H.div ! class_ "download-btn" $ a ! href "//haskell.org/platform/download/8.0.1/Haskell%20Platform%208.0.1%20Minimal%2064bit-signed-a.pkg" ! onclick "return dl(this)" ! class_ "btn btn-haskell" $ do
                                 i ! class_ "fa fa-download" $ mempty
@@ -301,15 +366,14 @@ osx_download = do
                                 i ! class_ "fa fa-download" $ mempty
                                 "Download Full (64 bit)"
                             H.div ! class_ "download-hash" $ do
-                                "You can verify the authenticity of this file by checking its "
                                 strong "SHA-256"
-                                "hash,"
+                                " hashes:"
                                 ul ! class_ "hashes" $ do
                                     li $ do
-                                        "64 bit Minimal:"
+                                        H.span $ "64 bit Minimal:"
                                         input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "c96fb07439a6ca10d64d36200a61e4ec51a3d0b64b9ad1da40f007cd0d7fb7c6"
                                     li $ do
-                                        "64 bit Full:"
+                                        H.span $ "64 bit Full:"
                                         input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "f579f8f120998faba6a9158be7b6c218f73ce65bd041046f0a2677b8cc614129"
                     li $ do
                         H.div ! class_ "step-number" $ "2"
@@ -321,17 +385,17 @@ osx_download = do
             H.div ! A.id "osx-macports" ! class_ "flavor" $ do
                 h3 "MacPorts"
                 p $ do
-                    "To install Haskell Platform with"
+                    "To install Haskell Platform with "
                     a ! href "https://trac.macports.org/browser/trunk/dports/devel/haskell-platform/Portfile" $ "MacPorts"
-                    ", simply run,"
+                    " run the command:"
                 pre "$ sudo port install haskell-platform"
             --  #osx-macports 
             H.div ! A.id "osx-homebrewcask" ! class_ "flavor" $ do
                 h3 "Homebrew Cask"
                 p $ do
-                    "To install Haskell Platform with"
+                    "To install Haskell Platform with "
                     a ! href "http://caskroom.io" $ "Homebrew Cask"
-                    ", simply run,"
+                    " run the command:"
                 pre "$ brew cask install haskell-platform"
             --  #osx-homebrewcask 
         H.div ! class_ "bottom-rule" $ mempty
@@ -355,7 +419,7 @@ windows_download = do
                 li $ do
                     H.div ! class_ "step-number" $ "1"
                     H.div ! class_ "step-body" $ do
-                        p "Download the installer,"
+                        p "Select an installer:"
                         H.div ! class_ "download-btn" $ a ! href "//haskell.org/platform/download/8.0.1/HaskellPlatform-8.0.1-minimal-i386-setup-a.exe" ! onclick "return dl(this)" ! class_ "btn btn-haskell" $ do
                             i ! class_ "fa fa-download" $ mempty
                             "Download Minimal (32 bit)"
@@ -369,30 +433,31 @@ windows_download = do
                             i ! class_ "fa fa-download" $ mempty
                             "Download Full (64 bit)"
                         H.div $ do
-                            "You can verify the authenticity of this file by checking its "
-                            strong "SHA-256"
-                            "hash,"
+                            string "SHA-256" >> " hashes:"
                             ul ! class_ "hashes" $ do
                                 li $ do
-                                    "32 bit Minimal:"
+                                    H.span "32 bit Minimal:"
                                     input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "9ea9d033520d76dfd281e0bdc36625203f4003d8761ad83f599812969fe2a1ee"
                                 li $ do
-                                    "32 bit Full:"
+                                    H.span "32 bit Full:"
                                     input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "e17941f42c44ea0f8fe478fedb47861b1970b8aa49b33d10d011b9e6a0e8592a"
                                 li $ do
-                                    "64 bit Minimal:"
+                                    H.span "64 bit Minimal:"
                                     input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "8478164015715fb6ac409504316b2d01fa47bcc3c1e489092d3d23e6265c3369"
                                 li $ do
-                                    "64 bit Full:"
+                                    H.span "64 bit Full:"
                                     input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value "b3a5a1e95e6f9348e0f02aef928c893efaa1811914c486ceb8d6898e1a2c00ce"
                 li $ do
                     H.div ! class_ "step-number" $ "2"
-                    H.div ! class_ "step-body" $ "Run the installer and follow the instructions."
+                    H.div ! class_ "step-body" $ "Run the installer."
                 li $ do
                     H.div ! class_ "step-number" $ "3"
                     H.div ! class_ "step-body" $ do
-                        "Modify your cabal config file (you can verify the location by running \"cabal\n           user-config init\") to contain the following lines:"
-                        pre "extra-prog-path: C:\\Program Files\\Haskell Platform\\8.0.1\\msys\\usr\\bin\\nextra-lib-dirs: C:\\Program Files\\Haskell Platform\\8.0.1\\mingw\\lib\\nextra-include-dirs: C:\\Program Files\\Haskell Platform\\8.0.1\\mingw\\include"
+                        "After the installer finishes, run "
+                        code $ "cabal user-config init"
+                        " to locate your cabal config file. "
+                        p $ "Modify the config file to contain the following lines:"
+                        pre "extra-prog-path: C:\\Program Files\\Haskell Platform\\8.0.1\\msys\\usr\\bin\nextra-lib-dirs: C:\\Program Files\\Haskell Platform\\8.0.1\\mingw\\lib\nextra-include-dirs: C:\\Program Files\\Haskell Platform\\8.0.1\\mingw\\include"
                 li $ do
                     H.div ! class_ "step-number" $ "4"
                     H.div ! class_ "step-body" $ "Start WinGHCi from the Start menu and have fun!"

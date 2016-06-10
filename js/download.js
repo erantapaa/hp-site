@@ -1,12 +1,17 @@
 // no-script fallback
-console.log("--- here in download.js")
-var preferredOS = "";
+console.log("--- here in download.js -- new version")
+
+var preferredOS = "osx";
+
 $(document).ready(function() {
     $('body').addClass('js');
 });
 
+// not used
+/*
 $(document).ready(function() {
     $('.expandable').each(function() {
+        console.log("--- processing an expandable")
         var $this = $(this);
         $this.children().wrapAll('<div class="contents"></div>')
         var $contents = $this.children();
@@ -20,8 +25,9 @@ $(document).ready(function() {
         });
     });
 });
+*/
 
-function identifyPlatform() {
+function identify_platform() {
     var ua = navigator.userAgent;
     var userAgents = {
         'Mac OSX': 'osx',
@@ -53,29 +59,46 @@ var platformNames = {
 
 // Infer user's operating system
 $(document).ready(function() {
-    var platform = identifyPlatform();
+    var platform = identify_platform();
     if (platform != 'unknown'){
         var $platform = $(".downloads-platform[data-os='"+platform+"']");
         $platform
             .prependTo('#platforms')
             .addClass('preferred-platform')
             .addClass('visible');
+        console.log("added visible for:", platform)
 
         $(".found-user-platform strong").text(platformNames[platform]);
         $("body").addClass('user-platform-known');
+        // ...
+        // $('.downloads-platform').removeClass('visible');
+        // $("section").find("[data-os='linux']").addClass('visible')
+        // 
+        console.log("platform:", platform)
     }
+    $('.downloads-platform').removeClass('visible');
+    $(".preferred-platform").removeClass("preferred-platform")
+    console.log("removed preferred-platform and visible from downloads-platform")
 });
 
-// Expanders
+// When an expander is clicked, hide the current expander
+// and make the clicked expander visible.
 $(document).ready(function() {
     $('a.expander').click(function() {
         var $this = $(this);
         $('.downloads-platform').removeClass('visible');
         $this.parents('.downloads-platform').addClass('visible');
+
+        var ypos = $this.parents("section").offset().top
+        console.log("--- ypos:", ypos)
+
+        // $('html, body').animate({ scrollTop: 0 + 'px' }, 'fast');
+
     });
 });
 
-// Copy hash
+// When clicking on SHA hash text fields, select the entire field
+// to faciliate copying the value to the clipboard.
 $(document).ready(function() {
     $('.hashes .file-hash').each(function() {
         $(this).click(function() {this.select();})
@@ -83,9 +106,11 @@ $(document).ready(function() {
 });
 
 // Linux flavors
+if (0) {
 $(document).ready(function() {
     $('#linux-prompt').addClass('active');
 });
+} else { console.log("not activating linux prompt") }
 
 // Operating system flavors
 $(document).ready(function() {
