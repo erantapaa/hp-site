@@ -17,7 +17,7 @@ hp_head = do
     script ! src "js/download.js" $ mempty
 
 banner_left = do
-    H.div $ do
+    H.div ! class_ "hp-title" $ do
         H.span ! A.style "background-image: url(img/logo.png)" ! class_ "hp-branding" $ "Haskell Platform"
         H.span ! class_ "hp-summary" $ "Haskell with batteries included"
 
