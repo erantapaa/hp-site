@@ -11,14 +11,14 @@ import Text.Blaze.Html5 as H
 import Text.Blaze.Html4.Strict.Attributes as A
 
 windows_download binFiles = do
-    section ! class_ "downloads-platform container" ! dataAttribute "os" "windows" ! A.id "windows" $ do
+    section ! A.id "windows-section" $ do
         H.div ! class_ "platform-name" $ do
             img ! RB.hl_src "platform/img/os-windows.svg" ! alt "Windows logo"
             h2 "Windows"
 
-        RB.expander "#linux"
+        RB.expander "#windows" "windows-expander"
 
-        H.div ! class_ "content" $ do
+        H.div ! A.id "windows-content" ! class_ "content" $ do
             p $ do
                 "The latest version of the Haskell Platform for Windows is "
                 strong "8.0.1"

@@ -17,20 +17,20 @@ osx_distro_buttons =
    ]
 
 osx_download binFiles = do
-    section ! class_ "downloads-platform container" ! dataAttribute "os" "osx" ! A.id "osx" $ do
+    section ! A.id "osx-section" $ do
         H.div ! class_ "platform-name" $ do
             img ! RB.hl_src "platform/img/os-osx.svg" ! alt "Mac OS X logo"
             h2 "Mac OS X"
 
-        RB.expander "#osx"
+        RB.expander "#osx" "osx-expander"
 
-        H.div ! class_ "sidebar flavors" $ do
+        H.div ! A.id "osx-sidebar" $ do
             strong "Choose your package manager"
 
             RB.distro_button_list osx_distro_buttons
 
-        H.div ! class_ "content" $ do
-            H.div ! A.id "osx-none" ! class_ "flavor active" $ do
+        H.div ! A.id "osx-content" ! class_ "content" $ do
+            H.div ! A.id "osx-none" ! class_ "flavor" $ do
                 p $ do
                     "The latest version of the Haskell Platform for Mac OS X is "
                     strong "8.0.1 and requires " >> strong "OS X 10.6 or later" >> "."

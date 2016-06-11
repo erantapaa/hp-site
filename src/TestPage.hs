@@ -5,6 +5,7 @@ import Control.Monad
 import ReleaseFiles as RF
 import Render.Base
 import Render.Linux
+import Render.DownloadPage
 import HtmlTest
 
 files801 = findRelease "8.0.1"
@@ -28,4 +29,9 @@ test2 = do
   let got = canonicalizeBlaze $ linux_download (linuxBins files801) (linuxSrc files801)
   expected <- fmap canonicalizeTrees $ readHTML "/tmp/linux.html"
   runDiff expected got
+
+test3 = do
+  let page = download_page files801
+  writeFile "z.html" $ blazeToString page
+  putStrLn "output written to z.html"
 

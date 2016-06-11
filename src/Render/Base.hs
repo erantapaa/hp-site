@@ -2,7 +2,9 @@
 
 module Render.Base (
   FileInfo, rf_distType, rf_url, rf_hash, rf_isFull
-  ,  rf_isBinFor, rf_isSource
+  , OS(..), Arch(..)
+  , rf_isBinFor, rf_isSource
+  , binsFor, srcDists
   , downloadButton, hashRow, downloadButtonsAndHashes
   , hl_src, hl_href, expander
   , distro_svg, distro_png, DistroIcon(..), distro_button_list, distro_button
@@ -35,6 +37,13 @@ rf_isSource finfo = case rf_distType finfo of
                           DistBinary{} -> False
                           DistSource{} -> True
 
+binsFor :: OS -> [FileInfo] -> [FileInfo]
+binsFor os files = filter (rf_isBinFor os) files
+
+srcDists :: [FileInfo] -> [FileInfo]
+srcDists files = filter rf_isSource files
+
+
 minfull :: FileInfo -> String
 minfull rfile
   | rf_isFull rfile = "Full"
@@ -44,14 +53,14 @@ minfull rfile
 buttonLabel :: FileInfo -> String
 buttonLabel rfile =
   case rf_distType rfile of
-    DistBinary os arch  -> minfull rfile ++ " " ++ "(" ++ show (archBits arch) ++ ")"
-    DistSource          -> "Source"
+    DistBinary os arch  -> "Download " ++ minfull rfile ++ " " ++ "(" ++ show (archBits arch) ++ " bit)"
+    DistSource          -> "Download Source"
 
 -- label to use for SHA256 hashes
 hashLabel :: FileInfo -> String
 hashLabel rfile =
   case rf_distType rfile of
-    DistBinary _ arch -> show (archBits arch) ++ " " ++ minfull rfile
+    DistBinary _ arch -> show (archBits arch) ++ " bit " ++ minfull rfile
     DistSource        -> "Source"
 
 -- HTML rendering functions
@@ -59,10 +68,9 @@ hashLabel rfile =
 hl_href url = href ("http://haskell.org/" <> url)
 hl_src url = src ("http://haskell.org/" <> url)
 
-expander anchor = do
-      let -- downArrow = hl_src "platform/img/expand-piece.svg"
-          downArrow = src "img/expand-piece.svg"
-      a ! class_ "expander" ! href (stringValue anchor) $ H.div $ do
+expander anchor ident = do
+      let downArrow = hl_src "platform/img/expand-piece.svg"
+      a ! A.id ident ! class_ "expander" ! href (stringValue anchor) $ H.div $ do
           img ! downArrow ! class_ "expand-1"
           img ! downArrow ! class_ "expand-2"
           img ! downArrow ! class_ "expand-3"
@@ -98,10 +106,10 @@ data DistroIcon = Image { _img_alt :: String, _img_url :: String }
                     | FontAwesome { _fa_class :: String }
 
 distro_svg :: String -> String
-distro_svg dist = "//haskell.org/platform/img/distro-" ++ dist ++ ".svg"
+distro_svg dist = "http://haskell.org/platform/img/distro-" ++ dist ++ ".svg"
 
 distro_png :: String -> String
-distro_png dist = "//haskell.org/platform/img/distro-" ++ dist ++ ".png"
+distro_png dist = "http://haskell.org/platform/img/distro-" ++ dist ++ ".png"
 
 distro_button :: (String, String, DistroIcon) -> Html
 distro_button (anchor, name, icon) = do
@@ -123,4 +131,15 @@ step stepno body = do
     li $ do
         H.div ! class_ "step-number" $ (toMarkup stepno)
         H.div ! class_ "step-body" $ (toMarkup body)
+
+-- --
+
+hp_head = do
+    link ! href  "download.css" ! rel "stylesheet" ! type_ "text/css"
+    link ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ! rel "stylesheet" ! type_ "text/css"
+    H.style $ do
+      ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; } "
+      ".hp-summary { margin-top: 20px; display: block; font-size: 20px; }"
+    script ! hl_src "/platform/js/jquery-1.11.1.min.js" $ mempty
+    script ! src "js/download.js" $ mempty
 

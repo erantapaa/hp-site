@@ -1,0 +1,40 @@
+
+Anatomy of a section:
+
+  - platform name div
+  - expander
+  - optional sidebar
+  - content div containing 1 or more flavor sections
+
+States:
+
+Each section is in one of three states:
+
+  - Collapsed:
+      - platform name div is visible
+      - expander is visible
+      - sidebar is hidden
+      - content div is hidden
+
+  - Expanded but no flavor selected
+      - platform name div visible
+      - expander is not visible
+      - sidebar is visible
+      - content div is hidden
+
+  - Flavor selected
+      - platform name div is visible
+      - expander is not visible
+      - sidebar is visible
+      - content div is visible
+      - div for selected flavor is visible
+
+Events:
+
+- When the expander is pressed:
+    - Change state of other sections to Collapsed
+    - Change state of selected section to Expanded
+
+- When a flavor is selected:
+    - Change state to Flavor selected
+
