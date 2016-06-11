@@ -16,7 +16,7 @@ windows_download binFiles = do
             img ! RB.hl_src "platform/img/os-windows.svg" ! alt "Windows logo"
             h2 "Windows"
 
-        RB.expander
+        RB.expander "#linux"
 
         H.div ! class_ "content" $ do
             p $ do

@@ -50,11 +50,13 @@ hashLabel rfile =
 hl_href url = href ("http://haskell.org/" <> url)
 hl_src url = src ("http://haskell.org/" <> url)
 
-expander = do
-      a ! class_ "expander" ! href "#linux" $ H.div $ do
-          img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-1"
-          img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-2"
-          img ! hl_src "platform/img/expand-piece.svg" ! class_ "expand-3"
+expander anchor = do
+      let -- downArrow = hl_src "platform/img/expand-piece.svg"
+          downArrow = src "img/expand-piece.svg"
+      a ! class_ "expander" ! href (stringValue anchor) $ H.div $ do
+          img ! downArrow ! class_ "expand-1"
+          img ! downArrow ! class_ "expand-2"
+          img ! downArrow ! class_ "expand-3"
 
 downloadButton :: FileInfo -> Html
 downloadButton rfile = do

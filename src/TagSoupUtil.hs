@@ -12,7 +12,7 @@ import Text.HTML.TagSoup (Tag(..))
 import Text.HTML.TagSoup.Entity (escapeXML)
 import Data.List
 import qualified Text.PrettyPrint as PP
-import Data.Char
+import qualified Data.Char as Char
 
 type HtmlTree = TS.TagTree String
 
@@ -21,7 +21,7 @@ type HtmlTree = TS.TagTree String
 removeComments :: HtmlTree -> [HtmlTree]
 removeComments (TagBranch n a children) = [ TagBranch n a children' ]
   where children' = concatMap removeComments children
-removecomments x@(TagLeaf t) =
+removeComments x@(TagLeaf t) =
   case t of
     TagComment _  -> []
     _             -> [x]
@@ -50,21 +50,25 @@ nextBranch (TagLeaf (TagComment _):_) = []
 nextBranch (x:xs)                   = nextBranch xs
 
 trimSpaces :: String -> String
-trimSpaces = reverse . dropWhile isSpace . reverse . dropWhile isSpace
+trimSpaces = reverse . dropWhile Char.isSpace . reverse . dropWhile Char.isSpace
 
 trim :: String -> String
 trim = filter (/= '\n') . trimSpaces
 
+toLower :: String -> String
+toLower = map Char.toLower
+
 -- formatting routines
 
 formatAttr :: (String,String) -> String
-formatAttr (name, value) = " " ++ name ++ "=\"" ++ escapeXML value ++ "\""
+formatAttr (name, value) = " " ++ toLower name ++ "=\"" ++ escapeXML value ++ "\""
 
 formatAttrs :: [(String,String)] -> String
-formatAttrs pairs = concatMap formatAttr pairs
+formatAttrs pairs = concatMap formatAttr . sort . map (\(x,c) -> (toLower x, c)) $ pairs
+  -- convert each attr name to lower case, sort and then format
 
 formatTag :: String -> [(String,String)] -> String
-formatTag name attrs = "<" ++ name ++ formatAttrs attrs ++ ">"
+formatTag name attrs = "<" ++ toLower name ++ formatAttrs attrs ++ ">"
 
 prettyTree :: HtmlTree -> PP.Doc
 prettyTree (TagLeaf t) =

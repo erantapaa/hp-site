@@ -30,7 +30,7 @@ linux_download binFiles srcFiles = do
           img ! RB.hl_src "platform/img/os-linux.svg" ! alt "Linux logo"
           h2 "Linux"
 
-      RB.expander
+      RB.expander "#linux"
 
       H.div ! class_ "sidebar flavors" $ do
           strong "Choose your distribution"

@@ -23,6 +23,8 @@ runDiff :: String -> String -> IO Bool
 runDiff text1 text2 = do
   withSystemTempFile "expected" $ \path1 h1 -> do
     withSystemTempFile "got" $ \path2 h2 -> do
+      hClose h1
+      hClose h2
       writeFile path1 text1
       writeFile path2 text2
       let cmd = "diff -b -u " ++ path1 ++ " " ++ path2

@@ -22,7 +22,7 @@ osx_download binFiles = do
             img ! RB.hl_src "platform/img/os-osx.svg" ! alt "Mac OS X logo"
             h2 "Mac OS X"
 
-        RB.expander
+        RB.expander "#osx"
 
         H.div ! class_ "sidebar flavors" $ do
             strong "Choose your package manager"
