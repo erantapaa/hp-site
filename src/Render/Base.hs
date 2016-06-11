@@ -2,6 +2,7 @@
 
 module Render.Base (
   FileInfo, rf_distType, rf_url, rf_hash, rf_isFull
+  ,  rf_isBinFor, rf_isSource
   , downloadButton, hashRow, downloadButtonsAndHashes
   , hl_src, hl_href, expander
   , distro_svg, distro_png, DistroIcon(..), distro_button_list, distro_button
@@ -25,6 +26,14 @@ rf_hash (_,_,hash,_) = hash
 
 rf_isFull :: FileInfo -> Bool
 rf_isFull (_,_,_,full) = full
+
+rf_isBinFor :: OS -> FileInfo -> Bool
+rf_isBinFor os finfo = distIsFor os (rf_distType finfo)
+
+rf_isSource :: FileInfo -> Bool
+rf_isSource finfo = case rf_distType finfo of
+                          DistBinary{} -> False
+                          DistSource{} -> True
 
 minfull :: FileInfo -> String
 minfull rfile
@@ -62,7 +71,10 @@ downloadButton :: FileInfo -> Html
 downloadButton rfile = do
     let url = rf_url rfile
     H.div ! class_ "download-btn" $ do
-        a ! href (stringValue url) ! onclick "return dl(this)" ! class_ "btn btn-haskell" $ do
+        a ! href (stringValue url)
+          ! onclick "return dl(this)"
+          {- role = "button" -}
+          ! class_ "btn btn-haskell" $ do
             i ! class_ "fa fa-download" $ mempty
             toMarkup (buttonLabel rfile)
 

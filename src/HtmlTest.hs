@@ -6,6 +6,8 @@ module HtmlTest (
   , runDiff
   , readHTML
   , blazeToTrees
+  , blazeToString
+  , blazeToPrettyString
   , canonicalizeBlaze
 ) where
 
@@ -17,6 +19,7 @@ import System.IO.Temp
 import System.Process
 import qualified Text.Blaze.Html as Blaze
 import qualified Text.Blaze.Html.Renderer.String as Blaze
+import qualified Text.Blaze.Html.Renderer.Pretty as BlazePretty
 
 -- use diff to report differences between two Strings
 runDiff :: String -> String -> IO Bool
@@ -27,7 +30,7 @@ runDiff text1 text2 = do
       hClose h2
       writeFile path1 text1
       writeFile path2 text2
-      let cmd = "diff -b -u " ++ path1 ++ " " ++ path2
+      let cmd = "colordiff -b -u " ++ path1 ++ " " ++ path2
       p <- spawnCommand cmd
       st <- waitForProcess p
       case st of
@@ -39,6 +42,12 @@ readHTML :: FilePath -> IO [HtmlTree]
 readHTML path = do
   content <- readFile path
   return $ TS.parseTree content
+
+blazeToPrettyString :: Blaze.Html -> String
+blazeToPrettyString = BlazePretty.renderHtml
+
+blazeToString :: Blaze.Html -> String
+blazeToString html = Blaze.renderHtml html
 
 -- convert a Blaze HTML document to a TagSoup Forest
 blazeToTrees :: Blaze.Html -> [HtmlTree]

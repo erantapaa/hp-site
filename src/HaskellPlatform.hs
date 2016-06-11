@@ -60,7 +60,7 @@ getting_started = do
 
     p $ do
       "The " >> strong "Minimal" >> " version is recommended for those users who"
-      " intend to install additional packages from Hackage. The "
+      " intend to install a lot of additional packages from Hackage. The "
       strong "Full"
       " version is made available for those accustomed to previous versions of the Platform which included a broader set of pre-compiled packages."
 
