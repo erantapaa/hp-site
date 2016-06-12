@@ -46,7 +46,9 @@ download_page files = do
             platform_toc
             H.div ! class_ "container" $ do
               linux_download linux_bins sources
+              H.div ! class_ "bottom-rule" $ mempty
               osx_download osx_bins
+              H.div ! class_ "bottom-rule" $ mempty
               windows_download windows_bins
     hl_footer  -- same level as the "wrap" class div
 

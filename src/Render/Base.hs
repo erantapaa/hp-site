@@ -112,15 +112,17 @@ distro_png :: String -> String
 distro_png dist = "http://haskell.org/platform/img/distro-" ++ dist ++ ".png"
 
 distro_button :: (String, String, DistroIcon) -> Html
-distro_button (anchor, name, icon) = do
-    li $ a ! href (stringValue anchor) $ do
-        case icon of
-          FontAwesome cls -> do
-              H.span ! class_ "logo" $ i ! class_ (stringValue cls) $ mempty
-              toMarkup name
-          Image altlabel url -> do
-              img ! alt (stringValue altlabel) ! class_ "logo" ! src (stringValue url)
-              toMarkup name
+distro_button (flavor, name, icon) = do
+    let anchor = "#" ++ flavor
+    li ! class_ "flavor-li" ! dataAttribute "flavor" (stringValue flavor) $ do
+        a ! href (stringValue anchor) ! dataAttribute "flavor" (stringValue flavor) $ do
+            case icon of
+              FontAwesome cls -> do
+                  H.span ! class_ "logo" $ i ! class_ (stringValue cls) $ mempty
+                  toMarkup name
+              Image altlabel url -> do
+                  img ! alt (stringValue altlabel) ! class_ "logo" ! src (stringValue url)
+                  toMarkup name
 
 distro_button_list :: [(String,String,DistroIcon)] -> Html
 distro_button_list icons = do

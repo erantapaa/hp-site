@@ -45,6 +45,17 @@
 }
 
 /*
+ * a completely CSS horizontal rule
+ */
+.bottom-rule {
+    width: 30%;
+    padding-top: 30px;
+    margin: auto;
+    border-bottom: 5px solid #ddd;
+    margin-bottom: 30px;
+}
+
+/*
  * expanding expander arrow
  */
 
@@ -97,6 +108,37 @@
     color: #000;
 }
 
+.flavors ul li.active {
+    border: 1px solid #7E788C;
+}
+
+.flavors ul li:hover {
+    background-color: #eee;
+}
+
+
+/*
+ * chosen is attached to the sidebar
+ */
+ 
+.sidebar.flavors.chosen ul li {opacity: 0.3;}
+.sidebar.flavors.chosen ul li:hover {opacity: 1;}
+.sidebar.flavors.chosen ul li.active {opacity: 1;}
+
+.sidebar.flavors.chosen > strong,
+.sidebar.flavors.chosen > p.select-generic {
+    opacity: 0.3;
+}
+.sidebar.flavors.chosen:hover > strong,
+.sidebar.flavors.chosen:hover > p.select-generic {
+    opacity: 1;
+}
+.sidebar.flavors > strong,
+.sidebar.flavors > p.select-generic {
+    opacity: 1;
+    transition: opacity 400ms ease;
+}
+
 /*
  * download buttons
  */
@@ -118,6 +160,12 @@
     margin: 10px 10px;
     padding: 10px 20px;
     font-size: large;
+}
+
+.btn-haskell.active, .btn-haskell.focus, .btn-haskell:active, .btn-haskell:focus,
+.btn-haskell:hover,.open > .dropdown-toggle.btn-haskell {
+          color: #fff;
+          border-color: #204d74;
 }
 
 /* add a little space after the download icon */

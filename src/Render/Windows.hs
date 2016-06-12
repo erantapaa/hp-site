@@ -16,7 +16,7 @@ windows_download binFiles = do
             img ! RB.hl_src "platform/img/os-windows.svg" ! alt "Windows logo"
             h2 "Windows"
 
-        RB.expander "#windows" "windows-expander"
+        RB.expander "#windows-section" "windows-expander"
 
         H.div ! A.id "windows-content" ! class_ "content" $ do
             p $ do
@@ -47,5 +47,4 @@ windows_download binFiles = do
                 li $ do
                     H.div ! class_ "step-number" $ "4"
                     H.div ! class_ "step-body" $ "Start WinGHCi from the Start menu and have fun!"
-        H.div ! class_ "bottom-rule" $ mempty
 

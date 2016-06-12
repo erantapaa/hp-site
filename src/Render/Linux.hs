@@ -12,14 +12,14 @@ import Text.Blaze.Html4.Strict.Attributes as A
 
 linux_distros :: [(String, String, DistroIcon)]
 linux_distros =
-    [ ("#linux-generic", "Generic", FontAwesome "fa fa-cogs")
-    , ("#linux-ubuntu", "Ubuntu", Image "Ubuntu logo" (distro_svg "ubuntu"))
-    , ("#linux-redhat", "RedHat", Image "Redhat logo" (distro_svg "redhat"))
-    , ("#linux-debian", "Debian", Image "Debian logo" (distro_svg "debian"))
-    , ("#linux-fedora", "Fedora", Image "Fedora logo" (distro_svg "fedora"))
-    , ("#linux-mint",   "Mint",   Image "Linut Mint logo" (distro_svg "mint"))
-    , ("#linux-gentoo", "Gentoo", Image "Gentoo Linux logo" (distro_svg "gentoo"))
-    , ("#linux-source",  "From Source",  FontAwesome "fa fa-code")
+    [ ("linux-generic", "Generic", FontAwesome "fa fa-cogs")
+    , ("linux-ubuntu",  "Ubuntu", Image "Ubuntu logo" (distro_svg "ubuntu"))
+    , ("linux-redhat",  "RedHat", Image "Redhat logo" (distro_svg "redhat"))
+    , ("linux-debian",  "Debian", Image "Debian logo" (distro_svg "debian"))
+    , ("linux-fedora",  "Fedora", Image "Fedora logo" (distro_svg "fedora"))
+    , ("linux-mint",    "Mint",   Image "Linut Mint logo" (distro_svg "mint"))
+    , ("linux-gentoo",  "Gentoo", Image "Gentoo Linux logo" (distro_svg "gentoo"))
+    , ("linux-source",  "From Source",  FontAwesome "fa fa-code")
     ]
 
 linux_download :: [RB.FileInfo] -> [RB.FileInfo] -> Html
@@ -30,13 +30,12 @@ linux_download binFiles srcFiles = do
           img ! RB.hl_src "platform/img/os-linux.svg" ! alt "Linux logo"
           h2 "Linux"
 
-      RB.expander "#linux" "linux-expander"
+      RB.expander "#linux-section" "linux-expander"
 
       H.div ! A.id "linux-sidebar" ! class_ "sidebar flavors" $ do
           strong "Choose your distribution"
-          ul ! class_ "choose-distrbution" $ do
 
-              RB.distro_button_list linux_distros
+          RB.distro_button_list linux_distros
 
 {-
           p ! class_ "select-generic" $ do
@@ -163,6 +162,5 @@ linux_download binFiles srcFiles = do
                           code "README"
                           " file for build instructions."
           --  #linux-source 
-      --  linux .content 
-      H.div ! class_ "bottom-rule" $ mempty
+      -- end linux .content 
 

@@ -11,9 +11,9 @@ import Text.Blaze.Html5 as H
 import Text.Blaze.Html4.Strict.Attributes as A
 
 osx_distro_buttons =
-   [ ("#osx-none",         "None",     FontAwesome "fa fa-cogs")
-   , ("#osx-macports",     "MacPorts", Image "MacPorts logo" (distro_png "macports"))
-   , ("#osx-homebrewcask", "Homebrew", Image "MacPorts logo" (distro_png "homebrew"))
+   [ ("osx-none",         "None",     FontAwesome "fa fa-cogs")
+   , ("osx-macports",     "MacPorts", Image "MacPorts logo" (distro_png "macports"))
+   , ("osx-homebrewcask", "Homebrew", Image "MacPorts logo" (distro_png "homebrew"))
    ]
 
 osx_download binFiles = do
@@ -22,9 +22,9 @@ osx_download binFiles = do
             img ! RB.hl_src "platform/img/os-osx.svg" ! alt "Mac OS X logo"
             h2 "Mac OS X"
 
-        RB.expander "#osx" "osx-expander"
+        RB.expander "#osx-section" "osx-expander"
 
-        H.div ! A.id "osx-sidebar" $ do
+        H.div ! A.id "osx-sidebar" ! class_ "sidebar flavors" $ do
             strong "Choose your package manager"
 
             RB.distro_button_list osx_distro_buttons
@@ -33,7 +33,7 @@ osx_download binFiles = do
             H.div ! A.id "osx-none" ! class_ "flavor" $ do
                 p $ do
                     "The latest version of the Haskell Platform for Mac OS X is "
-                    strong "8.0.1 and requires " >> strong "OS X 10.6 or later" >> "."
+                    strong "8.0.1" >> " and " >> strong "requires " >> strong "OS X 10.6 or later" >> "."
                 p "These packages are for Mac OS X systems not using a package manager. If you would rather install with MacPorts or Homebrew then select the appropriate option to the right. (Note that those distributions may lag behind official platform installers)."
                 p "To get started perform these steps,"
                 ol ! class_ "install-steps" $ do
@@ -68,6 +68,5 @@ osx_download binFiles = do
                     a ! href "http://caskroom.io" $ "Homebrew Cask"
                     " run the command:"
                 pre "$ brew cask install haskell-platform"
-            --  #osx-homebrewcask 
-        H.div ! class_ "bottom-rule" $ mempty
+            --  end #osx-homebrewcask 
 
