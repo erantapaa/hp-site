@@ -131,13 +131,13 @@ unknown_user_platform = do
 
 platform_toc = do
     H.div ! class_ "container platform-toc" $ ul $ do
-        li $ a ! href "#osx" $ do
+        li ! A.id "osx-select" ! class_ "platform-select" ! dataAttribute "platform" "osx" $ a ! href "#osx-section" $ do
             img ! hl_src "platform/img/os-osx.svg" ! alt "Mac OS X logo"
             "Mac OS X"
-        li $ a ! href "#windows" $ do
+        li ! A.id "windows-select" ! class_ "platform-select" ! dataAttribute "platform" "windows" $ a ! href "#windows-section" $ do
             img ! hl_src "platform/img/os-windows.svg" ! alt "Windows logo"
             "Windows"
-        li $ a ! href "#linux" $ do
+        li ! A.id "linux-select" ! class_ "platform-select" ! dataAttribute "platform" "linux" $ a ! href "#linux-section" $ do
             img ! hl_src "platform/img/os-linux.svg" ! alt "Linux logo"
             "Linux"
 

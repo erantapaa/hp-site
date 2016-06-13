@@ -4,7 +4,7 @@
  */
 
 .platform-toc ul {
-    padding: 80px 0;
+    padding: 40px 0;
     text-align: center;
 }
 
@@ -13,14 +13,23 @@
     display: inline-block;
     min-width: 150px;
     padding: 5px 20px;
-    text-align: center;
     font-weight: bold;
+    text-align: center;
+    border-radius: 20px;
 }
 
 .platform-toc ul li img {
     width: 50px;
     margin: 5px auto;
     display: block;
+}
+
+.platform-toc ul li.active {
+    border: 1px solid #7E788C;
+}
+
+.platform-toc ul li:hover {
+    background-color: #eee;
 }
 
 /*

@@ -7,6 +7,8 @@ Important selectors:
 
 Here <s> refers to either "linux", "osx" or "windows"
 
+  #<s>-select   - the <li> for selecting the platform
+
   #<s>-section  - the <section> element for a platform
   #<s>-expander - the expander div for a platform
   #<s>-sidebar  - the div containing the buttons to select a flavor of the distribution
@@ -36,6 +38,25 @@ function perform_all_except(action, sect) {
     if (s != sect) {
       action(s)
     }
+  }
+}
+
+function collapse_entire_section(sect) {  // added
+  $("#" + sect + "-section").hide()
+}
+
+function show_sidebar2(sect) {
+  $("#" + sect + "-section").show()
+  $("#" + sect + "-expander").hide()
+  $("#" + sect + "-sidebar").show()
+  $("#" + sect + "-content").show()
+
+  // collapse all the other sections
+  // perform_all_except( collapse_entire_section, sect )
+
+  if (sect == "windows") {
+    // scroll window to the #windows-section
+    // $('html, body').animate({ scrollTop: $("#windows-section").offset().top },0)
   }
 }
 
@@ -102,13 +123,43 @@ function add_flavor_actions(sect) {
   $("#" + sect + "-sidebar .flavor-li a").each(function() {
     $(this).click(function(e) {
                     select_flavor(sect, $(this).data("flavor"))
-                    return false; })
+                  })
+  })
+}
+
+function select_platform(sect) {
+  // select a platform
+
+  // toggle the platform-select buttons
+  $(".platform-select").each(function() {
+    var plat = $(this).data("platform")
+    console.log("--- plat:", plat)
+    if (plat == sect) {
+      $(this).addClass("active")
+      show_sidebar2(plat)
+    } else {
+      $(this).removeClass("active")
+      collapse_entire_section(plat)
+    }
+  })
+}
+
+function add_select_platform_actions(sect) {
+  $("#"+sect+"-select a").each(function() {
+    $(this).click(function() {
+      console.log("--- calling select_platform with:", sect)
+      select_platform(sect)
+      return false;
+    })
   })
 }
 
 $(document).ready(function() {
   perform_all(add_expander_action)
   perform_all(add_flavor_actions)
+
+  perform_all(add_select_platform_actions)
+  $(".bottom-rule").hide()   // hide all of the bottom rules
 
   // for linux and osx, make the first flavor selected by default
   var sect = "linux"
@@ -123,12 +174,12 @@ $(document).ready(function() {
 
   // collapse all sections
   perform_all(collapse_section)
-  $(".platform-toc").hide()
+  $(".platform-toc").show()
   $(".unknown-user-platform").hide()
   $(".found-user-platform").hide()
 
   // expand the preferred platform
   var sect = "linux"
-  show_sidebar(sect)
+  select_platform(sect)
 
 })
