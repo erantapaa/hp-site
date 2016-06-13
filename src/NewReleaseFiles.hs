@@ -36,7 +36,7 @@ data Month = Month { _year, _month :: Int }
 
 findReleaseNamed :: String -> [Release]
 findReleaseNamed name =
-  filter (\r -> _rls_name r == name) releaseFiles
+  filter (\r -> _rls_name r == name) allReleases
 
 mnames = words "January February March April May June July August September October November December"
 
@@ -156,8 +156,8 @@ sha256 = Just
 
 --
 
-releaseFiles :: [Release]
-releaseFiles = 
+allReleases :: [Release]
+allReleases = 
   let rl (a,b,c) = Release a b c
   in map rl
       [

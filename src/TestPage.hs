@@ -30,7 +30,7 @@ test3 = do
   putStrLn "output written to z.html"
 
 test4 = do
-  let page = prior_releases_page RF.releaseFiles
+  let page = prior_releases_page RF.allReleases
   writeFile "y.html" $ blazeToString page
   putStrLn "output written to y.html"
 
