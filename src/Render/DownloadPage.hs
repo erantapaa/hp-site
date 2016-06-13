@@ -52,6 +52,78 @@ download_page files = do
               windows_download windows_bins
     hl_footer  -- same level as the "wrap" class div
 
+-- wrap some HTML in a Download Page
+download_page_wrapper :: Html -> Html
+download_page_wrapper content = do
+  H.head $ do
+    hl_head
+    H.title "Download the Haskell Platform"
+    hp_head
+  body ! class_ "page-home" $ do
+    H.div ! class_ "wrap" $ do
+      navbar_section
+      -- the banner area
+      H.div ! class_ "pattern-bg" $ do
+        H.div ! class_ "container" $ do
+          H.div ! class_ "row" $ do
+            H.div ! class_ "span6 col-sm-6" $ do
+              banner_left
+            H.div ! class_ "span6 col-sm-6" $ do
+              banner_right
+      -- getting started
+      H.div ! class_ "container" $ do
+        H.div ! class_ "row" $ do
+          H.div ! class_ "span12 col-sm-12" $ do
+            getting_started
+            found_user_platform
+            unknown_user_platform
+            platform_toc
+            H.div ! class_ "container" $ 
+              content
+    hl_footer  -- same level as the "wrap" class div
+
+all_sections:: [FileInfo] -> (Html,Html,Html)
+all_sections files = 
+  let linux_bins = binsFor OsLinux files
+      sources = srcDists files
+      osx_bins = binsFor OsOSX files
+      windows_bins = binsFor OsWindows files
+
+      linux   = linux_download linux_bins sources
+      windows = windows_download windows_bins
+      osx     = osx_download osx_bins
+  in (linux, windows, osx)
+
+download_page_for_linux :: [FileInfo] -> Html
+download_page_for_linux files = do
+  let (linux, windows, osx) = all_sections files
+  download_page_wrapper $ do
+      linux
+      section_hrule
+      osx
+      section_hrule
+      windows
+
+download_page_for_osx :: [FileInfo] -> Html
+download_page_for_osx files = do
+  let (linux, windows, osx) = all_sections files
+  download_page_wrapper $ do
+      osx
+      section_hrule
+      windows
+      section_hrule
+      linux
+
+download_page_for_windows :: [FileInfo] -> Html
+download_page_for_windows files = do
+  let (linux, windows, osx) = all_sections files
+  download_page_wrapper $ do
+      windows
+      section_hrule
+      linux
+      section_hrule
+      osx
+
 hp_head = do
     link ! href  "download.css" ! rel "stylesheet" ! type_ "text/css"
     link ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ! rel "stylesheet" ! type_ "text/css"

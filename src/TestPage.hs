@@ -6,6 +6,7 @@ import Render.Base
 import Render.Linux
 import Render.DownloadPage
 import Render.PriorReleases
+import Render.IncludedPackages
 import HtmlTest
 
 files801 :: [FileInfo] 
@@ -23,14 +24,26 @@ test2 = do
   expected <- fmap canonicalizeTrees $ readHTML "/tmp/linux.html"
   runDiff expected got
 
+writeToFile path content = do
+  writeFile path content
+  putStrLn $ "output written to " ++ path
 
 test3 = do
   let page = download_page files801
-  writeFile "z.html" $ blazeToString page
-  putStrLn "output written to z.html"
+  writeToFile "z.html" $ blazeToString page
 
 test4 = do
-  let page = prior_releases_page RF.allReleases
-  writeFile "y.html" $ blazeToString page
-  putStrLn "output written to y.html"
+  let page = prior_releases_page (tail RF.allReleases)
+  writeToFile "y.html" $ blazeToString page
+
+test5 = do
+  page <- included_packages_page 
+  writeToFile "x.html" $ blazeToString page
+
+test6 = do
+  -- generate the linux, osx and windows pages
+  let files = files801
+  writeToFile "linux.html" $ blazeToString $ download_page_for_linux files
+  writeToFile "windows.html" $ blazeToString $ download_page_for_windows files
+  writeToFile "osx.html" $ blazeToString $ download_page_for_osx files
 

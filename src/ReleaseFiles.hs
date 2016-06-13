@@ -17,9 +17,9 @@ type Date = (Int,Int)
 jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec :: Int -> Date
 [ jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec ] = map (,) [1..12]
 
-data OS = OsLinux | OsOSX | OsWindows               deriving (Eq)
-data Arch = ArchI386 | ArchX86_64                   deriving (Eq)
-data DistType = DistBinary OS Arch | DistSource     deriving (Eq)
+data OS = OsLinux | OsOSX | OsWindows               deriving (Eq,Show)
+data Arch = ArchI386 | ArchX86_64                   deriving (Eq,Show)
+data DistType = DistBinary OS Arch | DistSource     deriving (Eq,Show)
 type Url = String
 type Hash = String
 type FileInfo = (DistType, Url, Maybe Hash, IsFull)

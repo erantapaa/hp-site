@@ -108,7 +108,7 @@ priorLabel file
   | otherwise     = os ++ ", " ++ bits ++ var'
   where var = varpart (_variant file)
         var' = if null var then var else " " ++ var
-        bits = osbits (_disttype file)
+        bits = osbits (_disttype file) ++ "bit"
         os   = osname (_disttype file)
 
 -- sorting / grouping

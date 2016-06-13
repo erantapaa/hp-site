@@ -154,7 +154,7 @@ function add_select_platform_actions(sect) {
   })
 }
 
-$(document).ready(function() {
+function initialize() {
   perform_all(add_expander_action)
   perform_all(add_flavor_actions)
 
@@ -179,7 +179,31 @@ $(document).ready(function() {
   $(".found-user-platform").hide()
 
   // expand the preferred platform
+  var loc = window.location.href
   var sect = "linux"
-  select_platform(sect)
+  var basename = loc.split('/').reverse()[0]
+  basename = basename.replace(/#.*/,"")
+  console.log("basename:", basename)
+  if (basename.match(/linux/)) {
+    sect = "linux"
+  } else if (basename.match(/osx/)) {
+    sect = "osx"
+  } else if (basename.match(/windows/)) {
+    sect = "windows"
+  } // else stay with the default
 
+  console.log("selecting platform", sect)
+  select_platform(sect)
+}
+
+$(document).ready(function() {
+  var loc = window.location.href
+  if (loc.match(/-nojs.html/)) {
+    console.log("--- not running javascript")
+    return;
+  } else {
+    console.log("=== running initialize")
+    initialize()
+  }
 })
+

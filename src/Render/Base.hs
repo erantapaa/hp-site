@@ -8,6 +8,7 @@ module Render.Base (
   , downloadButton, hashRow, downloadButtonsAndHashes
   , hl_src, hl_href, expander
   , distro_svg, distro_png, DistroIcon(..), distro_button_list, distro_button
+  , section_hrule
 )
 where
 
@@ -105,6 +106,9 @@ step stepno body = do
     li $ do
         H.div ! class_ "step-number" $ (toMarkup stepno)
         H.div ! class_ "step-body" $ (toMarkup body)
+
+section_hrule = do
+    H.div ! class_ "bottom-rule" $ mempty
 
 -- --
 

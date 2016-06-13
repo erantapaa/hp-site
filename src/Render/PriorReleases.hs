@@ -15,11 +15,6 @@ import Data.List
 
 import qualified NewReleaseFiles as RF
 
-renderFileInfo :: Int -> FileInfo -> String
-renderFileInfo year fileinfo
-  | year >= 2016 = "???"
-  | otherwise    = RF.distName (RF._disttype fileinfo)
-
 renderRelease :: Release -> Html
 renderRelease rls = do
   let monthName = RF.monthName (RF._rls_month rls)
@@ -28,10 +23,10 @@ renderRelease rls = do
       files = RF._rls_files rls
 
   p $ do strong (toMarkup version)
-         ", " >> toMarkup monthName >> " " >> toMarkup year
+         ", " >> toMarkup monthName >> " " >> toMarkup year >> " " >> string ("\x21d2") >> " "
          sequence_
            $ intersperse " - "
-           $ [ a ! href (stringValue (RF._url file)) $ toMarkup (renderFileInfo year file) | file <- files ]
+           $ [ a ! href (stringValue (RF._url file)) $ toMarkup (RF.priorLabel file) | file <- files ]
 
 prior_releases_page :: [Release] -> Html
 prior_releases_page releases = do
