@@ -12,6 +12,8 @@ import HtmlTest
 import System.Directory
 import System.FilePath
 
+import Paths_hp_site
+
 {-
 
    TOP/
@@ -32,20 +34,22 @@ saveTo dir leaf content = do
   writeFile path content
   putStrLn $ "wrote " ++ path
 
-copy src top path = do
+-- copy a cabal data file
+copyDataFile top path = do
+  src <- getDataFileName path
   let dest = top </> path
-  copyFile (src </> path) dest
+  copyFile src dest
   putStrLn $ "copied to " ++ dest
 
 -- build all pages
-buildAllPages src top = do
+buildAllPages top = do
   createDirectoryIfMissing True top
   createDirectoryIfMissing True $ top </> "801"
 
   -- Download Page
-  copy src top "801/download.css"
-  copy src top "801/download.js"
-  copy src top "801/logo.png"
+  copyDataFile top "801/download.css"
+  copyDataFile top "801/download.js"
+  copyDataFile top "801/logo.png"
 
   let files = files801
   saveTo top "linux.html"   $ blazeToString $ download_page_for_linux files
@@ -59,7 +63,8 @@ buildAllPages src top = do
   saveTo top "prior.html"  $ blazeToString page
 
   -- Included Packages
-  page <- included_packages_page
+  contents_body <- getDataFileName "801/contents-body.html" >>= readFile
+  let page = included_packages_page contents_body
   saveTo top "contents.html" $ blazeToString page
 
   return ()
