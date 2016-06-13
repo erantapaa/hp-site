@@ -16,11 +16,8 @@ import Data.List
 
 import qualified NewReleaseFiles as RF
 
-included_packages_page :: IO Html
-included_packages_page = do
-  -- let groups = RF.groupBySameYear releases
-  contents <- readFile "/Users/erantapaa/work/fix-hp/hp-site/included.html"
-  return $ do
+included_packages_page :: String -> Html
+included_packages_page contents_body =  do
     H.head $ do
       hl_head
       H.title "Prior Releases"
@@ -38,6 +35,6 @@ included_packages_page = do
              -- H.div ! class_ "span6 col-sm-6" $ do
              -- banner_right
         -- main content
-        preEscapedString contents
+        preEscapedString contents_body
       hl_footer
 

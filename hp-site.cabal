@@ -12,6 +12,7 @@ category:            Web
 build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
+data-files: 801/logo.png, 801/download.js, 801/download.css, 801/contents-body.html
 
 library
   hs-source-dirs:      src

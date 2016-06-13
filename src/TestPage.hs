@@ -36,10 +36,6 @@ test4 = do
   let page = prior_releases_page (tail RF.allReleases)
   writeToFile "y.html" $ blazeToString page
 
-test5 = do
-  page <- included_packages_page 
-  writeToFile "x.html" $ blazeToString page
-
 test6 = do
   -- generate the linux, osx and windows pages
   let files = files801
