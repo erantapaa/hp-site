@@ -81,5 +81,5 @@ branding_style = do
 
 banner_left = do
     H.div ! class_ "hp-title" $ do
-        H.span ! A.style "background-image: url(img/logo.png)" ! class_ "hp-branding" $ "Haskell Platform"
+        H.span ! A.style "background-image: url(801/logo.png)" ! class_ "hp-branding" $ "Haskell Platform"
         H.span ! class_ "hp-summary" $ "Haskell with batteries included"

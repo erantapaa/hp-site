@@ -23,7 +23,6 @@ windows_download binFiles = do
                 "The latest version of the Haskell Platform for Windows is "
                 strong "8.0.1"
                 "."
-            p "To get started perform these steps,"
             ol ! class_ "install-steps" $ do
                 li $ do
                     H.div ! class_ "step-number" $ "1"

@@ -25,7 +25,7 @@ osx_download binFiles = do
         RB.expander "#osx-section" "osx-expander"
 
         H.div ! A.id "osx-sidebar" ! class_ "sidebar flavors" $ do
-            strong "Choose your package manager"
+            strong "Select a package manager:"
 
             RB.distro_button_list osx_distro_buttons
 
@@ -35,7 +35,6 @@ osx_download binFiles = do
                     "The latest version of the Haskell Platform for Mac OS X is "
                     strong "8.0.1" >> " and " >> strong "requires " >> strong "OS X 10.6 or later" >> "."
                 p "These packages are for Mac OS X systems not using a package manager. If you would rather install with MacPorts or Homebrew then select the appropriate option to the right. (Note that those distributions may lag behind official platform installers)."
-                p "To get started perform these steps,"
                 ol ! class_ "install-steps" $ do
                     li $ do
                         H.div ! class_ "step-number" $ "1"

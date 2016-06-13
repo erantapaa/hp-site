@@ -33,7 +33,7 @@ linux_download binFiles srcFiles = do
       RB.expander "#linux-section" "linux-expander"
 
       H.div ! A.id "linux-sidebar" ! class_ "sidebar flavors" $ do
-          strong "Choose your distribution"
+          strong "Select your distribution:"
 
           RB.distro_button_list linux_distros
 
@@ -54,7 +54,6 @@ linux_download binFiles srcFiles = do
                   "The latest version of the Haskell Platform for Linux is "
                   strong "8.0.1"
                   "."
-              p "To get started perform these steps,"
               ol ! class_ "install-steps" $ do
                   li $ do
                       H.div ! class_ "step-number" $ "1"

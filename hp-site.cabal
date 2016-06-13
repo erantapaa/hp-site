@@ -19,10 +19,10 @@ library
                        , Render.Base, Render.Linux, Render.OSX, Render.Windows, Render.HaskellOrg
                        , TagSoupUtil, HtmlTest, TestPage, Render.DownloadPage
                        , Render.PriorReleases, NewReleaseFiles
-                       , Render.IncludedPackages
+                       , Render.IncludedPackages, Build
 
   build-depends:       base >= 4.7 && < 5,
-                       bytestring, text, blaze-markup, blaze-builder, blaze-html, tagsoup, pretty-show, pretty, process, temporary, data-ordlist
+                       bytestring, text, blaze-markup, blaze-builder, blaze-html, tagsoup, pretty-show, pretty, process, temporary, data-ordlist, directory, filepath
   default-language:    Haskell2010
 
 executable hp-exe

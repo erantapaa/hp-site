@@ -125,13 +125,13 @@ download_page_for_windows files = do
       osx
 
 hp_head = do
-    link ! href  "download.css" ! rel "stylesheet" ! type_ "text/css"
+    link ! href  "801/download.css" ! rel "stylesheet" ! type_ "text/css"
     link ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ! rel "stylesheet" ! type_ "text/css"
     H.style $ do
       ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; } "
       ".hp-summary { margin-top: 20px; display: block; font-size: 20px; }"
     script ! hl_src "/platform/js/jquery-1.11.1.min.js" $ mempty
-    script ! src "js/download.js" $ mempty
+    script ! src "801/download.js" $ mempty
 
 banner_right = do
     h3 "A multi-OS distribution"
