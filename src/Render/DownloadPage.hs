@@ -61,11 +61,6 @@ hp_head = do
     script ! hl_src "/platform/js/jquery-1.11.1.min.js" $ mempty
     script ! src "js/download.js" $ mempty
 
-banner_left = do
-    H.div ! class_ "hp-title" $ do
-        H.span ! A.style "background-image: url(img/logo.png)" ! class_ "hp-branding" $ "Haskell Platform"
-        H.span ! class_ "hp-summary" $ "Haskell with batteries included"
-
 banner_right = do
     h3 "A multi-OS distribution"
     p "designed to get you up and running quickly, making it easy to focus on using Haskell. You get:"

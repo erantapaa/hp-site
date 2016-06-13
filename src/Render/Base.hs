@@ -2,7 +2,7 @@
 
 module Render.Base (
   FileInfo, rf_distType, rf_url, rf_hash, rf_isFull
-  , OS(..), Arch(..)
+  , OS(..), Arch(..), ReleaseFiles, Date, releaseFiles
   , rf_isBinFor, rf_isSource
   , binsFor, srcDists
   , downloadButton, hashRow, downloadButtonsAndHashes
@@ -145,3 +145,4 @@ hp_head = do
     script ! hl_src "/platform/js/jquery-1.11.1.min.js" $ mempty
     script ! src "js/download.js" $ mempty
 
+-- ---

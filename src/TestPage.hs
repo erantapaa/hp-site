@@ -6,6 +6,7 @@ import ReleaseFiles as RF
 import Render.Base
 import Render.Linux
 import Render.DownloadPage
+import Render.PriorReleases
 import HtmlTest
 
 files801 = findRelease "8.0.1"
@@ -34,4 +35,9 @@ test3 = do
   let page = download_page files801
   writeFile "z.html" $ blazeToString page
   putStrLn "output written to z.html"
+
+test4 = do
+  let page = prior_releases_page releaseFiles
+  writeFile "y.html" $ blazeToString page
+  putStrLn "output written to y.html"
 

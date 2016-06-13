@@ -74,3 +74,12 @@ hl_footer = do
             H.div ! class_ " span12 col-sm-12" $ br
         p mempty
 
+branding_style = do
+    H.style $ do
+      ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; } "
+      ".hp-summary { margin-top: 20px; display: block; font-size: 20px; }"
+
+banner_left = do
+    H.div ! class_ "hp-title" $ do
+        H.span ! A.style "background-image: url(img/logo.png)" ! class_ "hp-branding" $ "Haskell Platform"
+        H.span ! class_ "hp-summary" $ "Haskell with batteries included"
