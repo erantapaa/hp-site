@@ -1,26 +1,18 @@
-
 module TestPage where
 
 import Control.Monad
-import ReleaseFiles as RF
+import qualified NewReleaseFiles as RF
 import Render.Base
 import Render.Linux
 import Render.DownloadPage
 import Render.PriorReleases
 import HtmlTest
 
-files801 = findRelease "8.0.1"
+files801 :: [FileInfo] 
+files801 = concatMap RF._rls_files (RF.findReleaseNamed "8.0.1")
 
-findRelease name = 
-  case matches of
-    ((_,_,fs):_) -> fs
-    _            -> error $ "unable to find release named " ++ name
-  where
-    matches = filter go RF.releaseFiles
-                where go (s,_,_) = s == name
-
-linuxBins files = [ f | f <- files, rf_isBinFor OsLinux f ]
-linuxSrc files = [ f  | f <- files, rf_isSource f ]
+linuxBins files = binsFor RF.OsLinux files
+linuxSrc files = srcDists files
 
 test1 = do
   let section = linux_download (linuxBins files801) (linuxSrc files801)
@@ -31,13 +23,14 @@ test2 = do
   expected <- fmap canonicalizeTrees $ readHTML "/tmp/linux.html"
   runDiff expected got
 
+
 test3 = do
   let page = download_page files801
   writeFile "z.html" $ blazeToString page
   putStrLn "output written to z.html"
 
 test4 = do
-  let page = prior_releases_page releaseFiles
+  let page = prior_releases_page RF.releaseFiles
   writeFile "y.html" $ blazeToString page
   putStrLn "output written to y.html"
 

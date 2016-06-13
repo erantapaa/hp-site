@@ -15,10 +15,10 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib, HaskellPlatform, HaskellOrg, ReleaseFiles
+  exposed-modules:     Lib, HaskellPlatform, HaskellOrg
                        , Render.Base, Render.Linux, Render.OSX, Render.Windows, Render.HaskellOrg
                        , TagSoupUtil, HtmlTest, TestPage, Render.DownloadPage
-                       , Render.PriorReleases
+                       , Render.PriorReleases, NewReleaseFiles
 
   build-depends:       base >= 4.7 && < 5,
                        bytestring, text, blaze-markup, blaze-builder, blaze-html, tagsoup, pretty-show, pretty, process, temporary

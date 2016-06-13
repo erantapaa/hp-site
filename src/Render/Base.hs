@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Render.Base (
-  FileInfo, rf_distType, rf_url, rf_hash, rf_isFull
-  , OS(..), Arch(..), ReleaseFiles, Date, releaseFiles
-  , rf_isBinFor, rf_isSource
+  FileInfo
+  , RF.OS(..)
+  , RF.Release
   , binsFor, srcDists
   , downloadButton, hashRow, downloadButtonsAndHashes
   , hl_src, hl_href, expander
@@ -13,55 +13,27 @@ where
 
 import Control.Monad
 import Data.Monoid
-import ReleaseFiles
+import qualified NewReleaseFiles as RF
+import NewReleaseFiles (OS(..), FileInfo(..))
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html4.Strict.Attributes as A
 
-rf_distType :: FileInfo -> DistType
-rf_distType (dt,_,_,_) = dt
-
-rf_url :: FileInfo -> Url
-rf_url (_,url,_,_) = url
-
-rf_hash :: FileInfo -> Maybe Hash
-rf_hash (_,_,hash,_) = hash
-
-rf_isFull :: FileInfo -> Bool
-rf_isFull (_,_,_,full) = full
-
-rf_isBinFor :: OS -> FileInfo -> Bool
-rf_isBinFor os finfo = distIsFor os (rf_distType finfo)
-
-rf_isSource :: FileInfo -> Bool
-rf_isSource finfo = case rf_distType finfo of
-                          DistBinary{} -> False
-                          DistSource{} -> True
-
 binsFor :: OS -> [FileInfo] -> [FileInfo]
-binsFor os files = filter (rf_isBinFor os) files
+binsFor = filter . RF.isBinaryFor 
 
 srcDists :: [FileInfo] -> [FileInfo]
-srcDists files = filter rf_isSource files
-
+srcDists = filter RF.isSource
 
 minfull :: FileInfo -> String
-minfull rfile
-  | rf_isFull rfile = "Full"
-  | otherwise       = "Minimal"
+minfull = RF.varpart . RF._variant
 
 -- label to use for the download button
 buttonLabel :: FileInfo -> String
-buttonLabel rfile =
-  case rf_distType rfile of
-    DistBinary os arch  -> "Download " ++ minfull rfile ++ " " ++ "(" ++ show (archBits arch) ++ " bit)"
-    DistSource          -> "Download Source"
+buttonLabel file = "Download " ++ RF.buttonLabel file
 
 -- label to use for SHA256 hashes
 hashLabel :: FileInfo -> String
-hashLabel rfile =
-  case rf_distType rfile of
-    DistBinary _ arch -> show (archBits arch) ++ " bit " ++ minfull rfile
-    DistSource        -> "Source"
+hashLabel file = RF.hashLabel file
 
 -- HTML rendering functions
 
@@ -77,7 +49,7 @@ expander anchor ident = do
 
 downloadButton :: FileInfo -> Html
 downloadButton rfile = do
-    let url = rf_url rfile
+    let url = RF._url rfile
     H.div ! class_ "download-btn" $ do
         a ! href (stringValue url)
           ! onclick "return dl(this)"
@@ -88,7 +60,7 @@ downloadButton rfile = do
 
 hashRow :: FileInfo -> Html
 hashRow rfile = do
-    let hash = maybe "---" Prelude.id (rf_hash rfile)
+    let hash = maybe "---" Prelude.id (RF._hash rfile)
     li $ do
         H.span $ toMarkup (hashLabel rfile)
         input ! readonly "" ! class_ "file-hash" ! type_ "text" ! value (stringValue hash)
