@@ -42,6 +42,7 @@ buildAllPages src top = do
   createDirectoryIfMissing True top
   createDirectoryIfMissing True $ top </> "801"
 
+  -- Download Page
   copy src top "801/download.css"
   copy src top "801/download.js"
   copy src top "801/logo.png"
@@ -50,5 +51,16 @@ buildAllPages src top = do
   saveTo top "linux.html"   $ blazeToString $ download_page_for_linux files
   saveTo top "windows.html" $ blazeToString $ download_page_for_windows files
   saveTo top "osx.html"     $ blazeToString $ download_page_for_osx files
+
+  copyFile (top </> "windows.html") (top </> "index.html")
+
+  -- Prior Releases
+  let page = prior_releases_page (tail RF.allReleases)
+  saveTo top "prior.html"  $ blazeToString page
+
+  -- Included Packages
+  page <- included_packages_page
+  saveTo top "contents.html" $ blazeToString page
+
   return ()
 

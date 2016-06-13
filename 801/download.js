@@ -154,6 +154,16 @@ function add_select_platform_actions(sect) {
   })
 }
 
+function identify_platform() {
+    var ua = navigator.userAgent;
+
+    if (ua.match(/andriod/i)) { return "" }
+    if (ua.match(/os ?x/i)) { return "osx" }
+    if (ua.match(/windows/i)) { return "windows" }
+    if (ua.match(/linux/i)) { return "linux" }
+    return ""
+}
+
 function initialize() {
   perform_all(add_expander_action)
   perform_all(add_flavor_actions)
@@ -190,7 +200,9 @@ function initialize() {
     sect = "osx"
   } else if (basename.match(/windows/)) {
     sect = "windows"
-  } // else stay with the default
+  } else { // try to intuit the os
+    sect = identify_platform() || sect
+  }
 
   console.log("selecting platform", sect)
   select_platform(sect)
