@@ -47,9 +47,9 @@ buildAllPages top = do
   createDirectoryIfMissing True $ top </> "801"
 
   -- Download Page
-  copyDataFile top "801/download.css"
-  copyDataFile top "801/download.js"
-  copyDataFile top "801/logo.png"
+  copyDataFile top "download.css"
+  copyDataFile top "download.js"
+  copyDataFile top "logo.png"
 
   let files = files801
   saveTo top "linux.html"   $ blazeToString $ download_page_for_linux files
@@ -63,7 +63,7 @@ buildAllPages top = do
   saveTo top "prior.html"  $ blazeToString page
 
   -- Included Packages
-  contents_body <- getDataFileName "801/contents-body.html" >>= readFile
+  contents_body <- getDataFileName "contents-body.html" >>= readFile
   let page = included_packages_page contents_body
   saveTo top "contents.html" $ blazeToString page
 
