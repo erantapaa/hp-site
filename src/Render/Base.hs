@@ -110,18 +110,3 @@ step stepno body = do
 section_hrule = do
     H.div ! class_ "bottom-rule" $ mempty
 
--- --
-
--- XXX currently not exported and duplicated in Render.DownloadPage
-hp_head = do
-    link ! href  "801/download.css" ! rel "stylesheet" ! type_ "text/css"
-    link ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ! rel "stylesheet" ! type_ "text/css"
-    H.style $ do
-      ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; margin-top: 50px } "
-      ".hp-summary { margin-top: 20px; display: block; font-size: 20px; }"
-    script ! hl_src "/platform/js/jquery-1.11.1.min.js" $ mempty
-    script ! src "801/download.js" $ mempty
-
--- ---
-
-

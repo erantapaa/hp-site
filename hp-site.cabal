@@ -17,11 +17,19 @@ data-files: logo.png, download.js, download.css, contents-body.html, analytics.s
 
 library
   hs-source-dirs:      src
-  exposed-modules:     HaskellPlatform, HaskellOrg
-                       , Render.Base, Render.Linux, Render.OSX, Render.Windows, Render.HaskellOrg
-                       , TagSoupUtil, HtmlTest, TestPage, Render.DownloadPage
-                       , Render.PriorReleases, NewReleaseFiles
-                       , Render.IncludedPackages, Build
+  exposed-modules:     HaskellOrg
+                       , Render.HaskellOrg
+                       , Render.Base
+                       , Render.Linux
+                       , Render.OSX
+                       , Render.Windows
+                       , Render.DownloadPage
+                       , Render.PriorReleases
+                       , NewReleaseFiles
+                       , Render.IncludedPackages
+                       , Build
+                       , Doc, HtmlDoc
+                       , TagSoupUtil, HtmlTest, TestPage
   other-modules:       Paths_hp_site
 
   build-depends:       base >= 4.7 && < 5,

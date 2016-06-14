@@ -17,7 +17,9 @@ import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.Text.Lazy as TL
 import qualified Text.Blaze.Html.Renderer.Text as BlazeT
+import qualified Text.Blaze.Html5 as H
 import Data.Monoid
+import HtmlDoc
 
 import Paths_hp_site
 
@@ -82,22 +84,28 @@ buildAllPages top = do
 
   -- convert Html to T.Text and inject analytics
   let buildPage = injectAtEnd analytics . blazeToText
+      buildDoc  d = renderText $ d `prependEnd` (H.preEscapedText analytics)
 
   let files = files801
-  saveTo top "linux.html"   $ buildPage $ download_page_for_linux files
-  saveTo top "windows.html" $ buildPage $ download_page_for_windows files
-  saveTo top "osx.html"     $ buildPage $ download_page_for_osx files
+  -- saveTo top "linux.html"   $ buildPage $ download_page_for_linux files
+  -- saveTo top "windows.html" $ buildPage $ download_page_for_windows files
+  -- saveTo top "osx.html"     $ buildPage $ download_page_for_osx files
+  saveTo top "linux.html"   $ buildDoc $ download_page_for_linux' emptyDoc files
+  saveTo top "windows.html" $ buildDoc $ download_page_for_windows' emptyDoc files
+  saveTo top "osx.html"     $ buildDoc $ download_page_for_osx' emptyDoc files
 
   copyFile (top </> "windows.html") (top </> "index.html")
 
   -- Prior Releases
-  let page = prior_releases_page (tail RF.allReleases)
-  saveTo top "prior.html"  $ buildPage page
+  -- let page = prior_releases_page (tail RF.allReleases)
+  -- saveTo top "prior.html"  $ buildPage page
+  let doc = (prior_releases_page' emptyDoc (tail RF.allReleases))
+  saveTo top "prior2.html" $ buildDoc doc
 
   -- Included Packages
   contents_body <- getDataFileName "contents-body.html" >>= readFile
-  let page = included_packages_page contents_body
-  saveTo top "contents.html" $ buildPage page
+  let doc = included_packages_page' contents_body emptyDoc
+  saveTo top "contents2.html" $ buildDoc doc
 
   return ()
 

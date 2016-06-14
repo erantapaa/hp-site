@@ -13,6 +13,7 @@ import Render.Base
 import Render.HaskellOrg (branding_style, hl_head, hl_footer, navbar_section, banner_left)
 
 import Data.List
+import HtmlDoc
 
 import qualified NewReleaseFiles as RF
 
@@ -37,4 +38,25 @@ included_packages_page contents_body =  do
         -- main content
         preEscapedString contents_body
       hl_footer
+
+included_packages_page' contents_body doc =
+  let d1 = appendHead doc $ do
+                hl_head
+                H.title "Prior Releases"
+                branding_style
+      d2 = appendBody d1 $ do
+              H.div ! class_ "wrap" $ do
+                navbar_section
+                -- the banner area
+                H.div ! class_ "pattern-bg" $ do
+                  H.div ! class_ "container" $ do
+                    H.div ! class_ "row" $ do
+                      H.div ! class_ "span12 col-sm-12" $ do
+                        banner_left
+                     -- H.div ! class_ "span6 col-sm-6" $ do
+                     -- banner_right
+                -- main content
+                preEscapedString contents_body
+              hl_footer
+  in d2 
 

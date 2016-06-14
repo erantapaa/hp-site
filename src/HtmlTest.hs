@@ -56,3 +56,12 @@ blazeToTrees html = TS.parseTree (Blaze.renderHtml html)
 -- convert Blaze markup to a canonical HTML string
 canonicalizeBlaze html = canonicalizeHTML $ Blaze.renderHtml html
 
+-- diff two html files
+diffHtmlFiles :: FilePath -> FilePath -> IO ()
+diffHtmlFiles path1 path2 = do
+  contents1 <- fmap canonicalizeTrees $ readHTML path1
+  contents2 <- fmap canonicalizeTrees $ readHTML path2
+  same <- runDiff contents1 contents2
+  putStrLn $ "Files are " ++ (if same then "SAME" else "DIFFERENT")
+  return ()
+

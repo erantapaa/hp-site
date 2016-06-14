@@ -14,6 +14,7 @@ import Render.Linux
 import Render.OSX
 import Render.Windows
 import Render.HaskellOrg hiding (hl_src)
+import HtmlDoc
 
 download_page :: [FileInfo] -> Html
 download_page files = do
@@ -124,6 +125,71 @@ download_page_for_windows files = do
       section_hrule
       osx
 
+-- doc versions of download_page_for_...
+
+download_page_wrapper' :: HtmlDoc -> Html -> HtmlDoc
+download_page_wrapper' doc content =
+  let d1 = appendHead doc $ do
+              hl_head
+              H.title "Download the Haskell Platform"
+              hp_head
+      d2 = appendBody d1 $ do
+              H.div ! class_ "wrap" $ do
+                navbar_section
+                -- the banner area
+                H.div ! class_ "pattern-bg" $ do
+                  H.div ! class_ "container" $ do
+                    H.div ! class_ "row" $ do
+                      H.div ! class_ "span6 col-sm-6" $ do
+                        banner_left
+                      H.div ! class_ "span6 col-sm-6" $ do
+                        banner_right
+                -- getting started
+                H.div ! class_ "container" $ do
+                  H.div ! class_ "row" $ do
+                    H.div ! class_ "span12 col-sm-12" $ do
+                      getting_started
+                      found_user_platform
+                      unknown_user_platform
+                      platform_toc
+                      H.div ! class_ "container" $ 
+                        content
+              hl_footer  -- same level as the "wrap" class div
+  in d2
+
+download_page_for_linux' :: HtmlDoc -> [FileInfo] -> HtmlDoc
+download_page_for_linux' doc files = do
+  let (linux, windows, osx) = all_sections files
+  download_page_wrapper' doc $ do
+      linux
+      section_hrule
+      osx
+      section_hrule
+      windows
+
+download_page_for_windows' :: HtmlDoc -> [FileInfo] -> HtmlDoc
+download_page_for_windows' doc files = do
+  let (linux, windows, osx) = all_sections files
+  download_page_wrapper' doc $ do
+      windows
+      section_hrule
+      linux
+      section_hrule
+      osx
+
+download_page_for_osx' :: HtmlDoc -> [FileInfo] -> HtmlDoc
+download_page_for_osx' doc files = do
+  let (linux, windows, osx) = all_sections files
+  download_page_wrapper' doc $ do
+      osx
+      section_hrule
+      windows
+      section_hrule
+      linux
+
+-- -----
+
+
 hp_head = do
     link ! href  "801/download.css" ! rel "stylesheet" ! type_ "text/css"
     link ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ! rel "stylesheet" ! type_ "text/css"
@@ -177,7 +243,7 @@ getting_started = do
       " version is made available for those accustomed to previous versions of the Platform which included a broader set of pre-compiled packages."
 
     p $ do
-      "Both versions contain the "
+      "Both versions come with the "
       code $ "stack"
       " development tool. The tool can upgrade itself to the latest version with "
       code "stack upgrade"
