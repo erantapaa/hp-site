@@ -26,7 +26,7 @@ renderRelease rls = do
          ", " >> toMarkup monthName >> " " >> toMarkup year >> " " >> string ("\x21d2") >> " "
          sequence_
            $ intersperse " - "
-           $ [ a ! href (stringValue (RF._url file)) $ toMarkup (RF.priorLabel file) | file <- files ]
+           $ [ a ! href (stringValue (RF._url file)) ! onclick "return dl(this)" $ toMarkup (RF.priorLabel file) | file <- files ]
 
 prior_releases_page :: [Release] -> Html
 prior_releases_page releases = do

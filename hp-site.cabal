@@ -12,12 +12,12 @@ category:            Web
 build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
-data-dir: 801
-data-files: logo.png, download.js, download.css, contents-body.html
+data-dir: assets
+data-files: logo.png, download.js, download.css, contents-body.html, analytics.script
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib, HaskellPlatform, HaskellOrg
+  exposed-modules:     HaskellPlatform, HaskellOrg
                        , Render.Base, Render.Linux, Render.OSX, Render.Windows, Render.HaskellOrg
                        , TagSoupUtil, HtmlTest, TestPage, Render.DownloadPage
                        , Render.PriorReleases, NewReleaseFiles
