@@ -47,9 +47,10 @@ buildAllPages top = do
   createDirectoryIfMissing True $ top </> "801"
 
   -- Download Page
-  copyDataFile top "download.css"
-  copyDataFile top "download.js"
-  copyDataFile top "logo.png"
+  let assetdir= top </> "801"
+  copyDataFile assetdir "download.css"
+  copyDataFile assetdir "download.js"
+  copyDataFile assetdir "logo.png"
 
   let files = files801
   saveTo top "linux.html"   $ blazeToString $ download_page_for_linux files

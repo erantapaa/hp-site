@@ -76,7 +76,7 @@ hl_footer = do
 
 branding_style = do
     H.style $ do
-      ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; } "
+      ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; margin-top: 50px; } "
       ".hp-summary { margin-top: 20px; display: block; font-size: 20px; }"
 
 banner_left = do
