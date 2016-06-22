@@ -84,12 +84,12 @@ buildAllPages top = do
   copyFile (top </> "windows.html") (top </> "index.html")
 
   -- Prior Releases Page
-  let doc = (prior_releases_page' emptyDoc (tail RF.allReleases))
+  let doc = (prior_releases_page emptyDoc (tail RF.allReleases))
   saveTo top "prior.html" $ buildDoc doc
 
   -- Included Packages Page
   contents_body <- getDataFileName "contents-body.html" >>= readFile
-  let doc = included_packages_page' contents_body emptyDoc
+  let doc = included_packages_page contents_body emptyDoc
   saveTo top "contents.html" $ buildDoc doc
 
   return ()

@@ -17,7 +17,7 @@ import HtmlDoc
 
 import qualified NewReleaseFiles as RF
 
-included_packages_page' contents_body doc =
+included_packages_page contents_body doc =
   let d1 = appendHead doc $ do
                 hl_head
                 H.title "Included Packages"

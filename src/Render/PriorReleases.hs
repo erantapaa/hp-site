@@ -30,8 +30,8 @@ renderRelease rls = do
            $ intersperse " - "
            $ [ a ! href (stringValue (RF._url file)) ! onclick "return dl(this)" $ toMarkup (RF.priorLabel file) | file <- files ]
 
-prior_releases_page' :: HtmlDoc -> [Release] -> HtmlDoc
-prior_releases_page' doc releases = 
+prior_releases_page :: HtmlDoc -> [Release] -> HtmlDoc
+prior_releases_page doc releases = 
   let groups = RF.groupBySameYear releases
       header = 
        do hl_head
