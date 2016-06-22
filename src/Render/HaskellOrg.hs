@@ -2,6 +2,7 @@
 
 module Render.HaskellOrg where
 
+import Render.Base (asset, assetStr)
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html4.Strict.Attributes as A
 import Data.Monoid
@@ -41,6 +42,7 @@ hl_head = do
     link ! href "https://fonts.googleapis.com/css?family=Source+Sans+Pro|Raleway:700,900|Ubuntu+Mono:400" ! type_ "text/css" ! rel "stylesheet"
     link ! hl_href "/static/css/hl.min.css?etag=2LtRot0K" ! type_ "text/css" ! rel "stylesheet"
 
+{-
 navbar_section = do
     nav ! class_ "navbar navbar-default" $ H.div ! class_ "container" $ do
         H.div ! class_ "navbar-header" $ button ! dataAttribute "toggle" "collapse" ! dataAttribute "target" "#haskell-menu" ! class_ "navbar-toggle collapsed" $ do
@@ -53,7 +55,22 @@ navbar_section = do
             li $ a ! hl_href "/community" $ "Community"
             li $ a ! hl_href "/documentation" $ "Documentation"
             li $ a ! hl_href "/news" $ "News"
+-}
 
+navbar_section = do
+    nav ! class_ "navbar navbar-default" $ H.div ! class_ "container" $ do
+        H.div ! class_ "navbar-header" $ do
+            button ! dataAttribute "toggle" "collapse" ! dataAttribute "target" "#haskell-menu" ! class_ "navbar-toggle collapsed" $ do
+                H.span ! class_ "sr-only" $ mempty
+                H.span ! class_ "icon-bar" $ mempty
+                H.span ! class_ "icon-bar" $ mempty
+                H.span ! class_ "icon-bar" $ mempty
+            a ! hl_href "/" ! class_ "navbar-brand" $ H.span ! class_ "logo" $ img ! hl_src "/static/img/haskell-logo.svg?etag=ukf3Fg7-"
+        H.div ! A.id "haskell-menu" ! class_ "collapse navbar-collapse" $ ul ! class_ "nav navbar-nav navbar-right" $ do
+            li ! class_ "active" $ a ! hl_href "/downloads" $ "Downloads"
+            li $ a ! hl_href "/community" $ "Community"
+            li $ a ! hl_href "/documentation" $ "Documentation"
+            li $ a ! hl_href "/news" $ "News"
 
 hl_footer = do
     H.div ! class_ "footer" $ H.div ! class_ "container" $ do
@@ -63,13 +80,13 @@ hl_footer = do
             H.div ! class_ " span12 col-xs-12 visible-xs" $ br
             H.div ! class_ " span8 col-sm-4 col-md-6 text-center" $ do
                 br ! class_ "visible-xs"
-                H.span ! class_ "item" $ "Got changes to contribute?"
+                H.span ! class_ "item" $ "Got changes to contribute? "
                 br ! class_ "visible-xs"
                 a ! href "https://github.com/haskell-infra/hl" $ "Fork or comment on Github"
                 br ! class_ "visible-xs"
             H.div ! class_ " span12 col-xs-12 visible-xs" $ br
             H.div ! class_ " span3 col-sm-4 col-md-3 text-right" $ do
-                H.span "Proudly hosted by"
+                H.span "Proudly hosted by "
                 a ! href "https://www.rackspace.com/" $ img ! height "20" ! width "20" ! hl_src "/static/img/rackspace.svg?etag=J84VdDuP" ! alt "rackspace"
             H.div ! class_ " span12 col-sm-12" $ br
         p mempty
@@ -80,6 +97,7 @@ branding_style = do
       ".hp-summary { margin-top: 20px; display: block; font-size: 20px; margin-bottom: 25px; }"
 
 banner_left = do
+    let bgimage = toValue $ "background-image: url(" ++ assetStr("logo.png") ++ ")"
     H.div ! class_ "hp-title" $ do
-        H.span ! A.style "background-image: url(801/logo.png)" ! class_ "hp-branding" $ "Haskell Platform"
+        H.span ! A.style bgimage ! class_ "hp-branding" $ "Haskell Platform"
         H.span ! class_ "hp-summary" $ "Haskell with batteries included"

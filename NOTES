@@ -1,36 +1,24 @@
 
-Anatomy of a section:
 
-  - platform name div
-  - expander
-  - optional sidebar
-  - content div containing 1 or more flavor sections
+### Asset files
 
-States:
+The directory `assets` contains asset files (css, js, pngs, etc.) specfic
+for this release. They will be deployed to a release-specific directory
+so as not to conflict with prior releases.
 
-Each section is in one of three states:
+To add an asset file:
 
-  - Collapsed:
-      - platform name div is visible
-      - expander is visible
-      - sidebar is hidden
-      - content div is hidden
+1. Copy the file to the `assets` directory
+2. Add the file name to the `data-files:` section of the .cabal file.
+3. In `buildAllPages`, add a call to `copyDataFile` to copy the asset file
+to the build directory.
 
-  - Expanded:
-      - platform name div visible
-      - expander is not visible
-      - sidebar is visible
-      - content div is visible
-      - one flavor-li is marked active
-      - one flavor div is visible
+To reference an asset file in a page, use the `asset` function defined in
+`Render.Base` to create a relative url:
 
-Events:
+    asset :: String -> AttributeValue
 
-- When the expander is pressed:
-    - Change state of other sections to Collapsed
-    - Change state of selected section to Expanded
-
-- When a flavor is selected:
-    - Mark the selected flavor <li> with the "active" class
-    - Show/Hide flavor divs based on which flavor is selected
+When creating a new release, simply change the value of `asset_dir`
+to ensure that assets for the new release don't conflict with
+assets for previous releases.
 

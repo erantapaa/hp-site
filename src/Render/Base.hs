@@ -1,7 +1,10 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Render.Base (
-  FileInfo
+  asset_dir
+  , asset
+  , assetStr
+  , FileInfo
   , RF.OS(..)
   , RF.Release
   , binsFor, srcDists
@@ -9,6 +12,7 @@ module Render.Base (
   , hl_src, hl_href, expander
   , distro_svg, distro_png, DistroIcon(..), distro_button_list, distro_button
   , section_hrule
+  , include_jquery
 )
 where
 
@@ -19,12 +23,22 @@ import NewReleaseFiles (OS(..), FileInfo(..))
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html4.Strict.Attributes as A
 
+-- url prefix for assets
+asset_dir :: String
+asset_dir = "801"
+
+-- return the relative url to an asset file
+asset x = toValue (asset_dir ++ "/" ++ x)
+
+assetStr x = (asset_dir ++ "/" ++ x)
+
 binsFor :: OS -> [FileInfo] -> [FileInfo]
 binsFor = filter . RF.isBinaryFor 
 
 srcDists :: [FileInfo] -> [FileInfo]
 srcDists = filter RF.isSource
 
+-- returns either "Minimal" or "Full" for a download
 minfull :: FileInfo -> String
 minfull = RF.varpart . RF._variant
 
@@ -40,6 +54,8 @@ hashLabel file = RF.hashLabel file
 
 hl_href url = href ("http://haskell.org/" <> url)
 hl_src url = src ("http://haskell.org/" <> url)
+
+include_jquery = script ! hl_src "/platform/js/jquery-1.11.1.min.js" $ mempty
 
 expander anchor ident = do
       let downArrow = hl_src "platform/img/expand-piece.svg"

@@ -17,33 +17,13 @@ import HtmlDoc
 
 import qualified NewReleaseFiles as RF
 
-included_packages_page :: String -> Html
-included_packages_page contents_body =  do
-    H.head $ do
-      hl_head
-      H.title "Prior Releases"
-      branding_style
-      -- XXX hp_head
-    body ! class_ "page-home" $ do
-      H.div ! class_ "wrap" $ do
-        navbar_section
-        -- the banner area
-        H.div ! class_ "pattern-bg" $ do
-          H.div ! class_ "container" $ do
-            H.div ! class_ "row" $ do
-              H.div ! class_ "span12 col-sm-12" $ do
-                banner_left
-             -- H.div ! class_ "span6 col-sm-6" $ do
-             -- banner_right
-        -- main content
-        preEscapedString contents_body
-      hl_footer
-
 included_packages_page' contents_body doc =
   let d1 = appendHead doc $ do
                 hl_head
-                H.title "Prior Releases"
+                H.title "Included Packages"
                 branding_style
+                include_jquery
+                script ! src (asset "contents.js") $ mempty
       d2 = appendBody d1 $ do
               H.div ! class_ "wrap" $ do
                 navbar_section

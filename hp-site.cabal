@@ -13,7 +13,7 @@ build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
 data-dir: assets
-data-files: logo.png, download.js, download.css, contents-body.html, analytics.script
+data-files: logo.png, download.js, download.css, contents-body.html, analytics.script contents.js
 
 library
   hs-source-dirs:      src

@@ -40,21 +40,9 @@ insertBefore target new text =
          in error $ "insertBefore - could not find: " <> T.unpack target <> " in: " <> fragment
     else pre <> new <> target <> post
 
-
-{-
-
-   TOP/
-    - linux.html
-    - windows.html
-    - osx.html
-    - 801/download.css
-    - 801/download.js
-    - 801/logo.png
-
--}
-
-files801 :: [FileInfo]
-files801 = concatMap RF._rls_files (RF.findReleaseNamed "8.0.1")
+-- The list of downloads availble for this release.
+availableDownloads :: [FileInfo]
+availableDownloads = concatMap RF._rls_files (RF.findReleaseNamed "8.0.1")
 
 saveTo :: FilePath -> String -> T.Text -> IO ()
 saveTo dir leaf content = do
@@ -69,16 +57,18 @@ copyDataFile top path = do
   copyFile src dest
   putStrLn $ "copied to " ++ dest
 
--- build all pages
+-- build all pages placing files into top
+buildAllPages :: FilePath -> IO ()
 buildAllPages top = do
   createDirectoryIfMissing True top
   createDirectoryIfMissing True $ top </> "801"
 
   -- Download Page
-  let assetdir= top </> "801"
+  let assetdir= top </> asset_dir
   copyDataFile assetdir "download.css"
   copyDataFile assetdir "download.js"
   copyDataFile assetdir "logo.png"
+  copyDataFile assetdir "contents.js"
 
   analytics <- getDataFileName "analytics.script" >>= T.readFile
 
@@ -86,26 +76,21 @@ buildAllPages top = do
   let buildPage = injectAtEnd analytics . blazeToText
       buildDoc  d = renderText $ d `prependEnd` (H.preEscapedText analytics)
 
-  let files = files801
-  -- saveTo top "linux.html"   $ buildPage $ download_page_for_linux files
-  -- saveTo top "windows.html" $ buildPage $ download_page_for_windows files
-  -- saveTo top "osx.html"     $ buildPage $ download_page_for_osx files
+  let files = availableDownloads
   saveTo top "linux.html"   $ buildDoc $ download_page_for_linux' emptyDoc files
   saveTo top "windows.html" $ buildDoc $ download_page_for_windows' emptyDoc files
   saveTo top "osx.html"     $ buildDoc $ download_page_for_osx' emptyDoc files
 
   copyFile (top </> "windows.html") (top </> "index.html")
 
-  -- Prior Releases
-  -- let page = prior_releases_page (tail RF.allReleases)
-  -- saveTo top "prior.html"  $ buildPage page
+  -- Prior Releases Page
   let doc = (prior_releases_page' emptyDoc (tail RF.allReleases))
-  saveTo top "prior2.html" $ buildDoc doc
+  saveTo top "prior.html" $ buildDoc doc
 
-  -- Included Packages
+  -- Included Packages Page
   contents_body <- getDataFileName "contents-body.html" >>= readFile
   let doc = included_packages_page' contents_body emptyDoc
-  saveTo top "contents2.html" $ buildDoc doc
+  saveTo top "contents.html" $ buildDoc doc
 
   return ()
 

@@ -30,34 +30,6 @@ renderRelease rls = do
            $ intersperse " - "
            $ [ a ! href (stringValue (RF._url file)) ! onclick "return dl(this)" $ toMarkup (RF.priorLabel file) | file <- files ]
 
-prior_releases_page :: [Release] -> Html
-prior_releases_page releases = do
-  let groups = RF.groupBySameYear releases
-  H.head $ do
-    hl_head
-    H.title "Prior Releases"
-    branding_style
-    -- XXX hp_head
-  body ! class_ "page-home" $ do
-    H.div ! class_ "wrap" $ do
-      navbar_section
-      -- the banner area
-      H.div ! class_ "pattern-bg" $ do
-        H.div ! class_ "container" $ do
-          H.div ! class_ "row" $ do
-            H.div ! class_ "span12 col-sm-12" $ do
-              banner_left
-           -- H.div ! class_ "span6 col-sm-6" $ do
-           -- banner_right
-      -- main content
-      H.div ! class_ "container" $ do
-        h2 $ "Prior Releases"
-        forM_ groups $ \rels -> do
-          let year =  RF._year (RF._rls_month (Prelude.head rels))
-          h3 ! A.id "section" $ toMarkup year
-          forM_ rels $ \rel -> do renderRelease rel
-    hl_footer
-
 prior_releases_page' :: HtmlDoc -> [Release] -> HtmlDoc
 prior_releases_page' doc releases = 
   let groups = RF.groupBySameYear releases
