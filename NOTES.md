@@ -17,6 +17,7 @@ Here's the layout of the site and the routines which generate them:
     ├── osx.html              download_page_for_osx
     ├── prior.html            prior_releases_page
     └── windows.html          download_page_for_windows
+    └── faq.html              faq_page
 
 ### Page Structure
 

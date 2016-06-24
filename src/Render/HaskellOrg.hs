@@ -6,6 +6,7 @@ import Render.Base (asset, assetStr)
 import Text.Blaze.Html5 as H
 import Text.Blaze.Html4.Strict.Attributes as A
 import Data.Monoid
+import Control.Monad
 
 {-
     <head>
@@ -78,13 +79,38 @@ hl_footer = do
             H.div ! class_ " span12 col-sm-12" $ br
         p mempty
 
-branding_style = do
-    H.style $ do
-      ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; margin-top: 50px; } "
-      ".hp-summary { margin-top: 20px; display: block; font-size: 20px; margin-bottom: 25px; }"
+hp_stylesheet = link ! href (asset "hp.css") ! rel "stylesheet" ! type_ "text/css"
 
 banner_left = do
     let bgimage = toValue $ "background-image: url(" ++ assetStr("logo.png") ++ ")"
     H.div ! class_ "hp-title" $ do
         H.span ! A.style bgimage ! class_ "hp-branding" $ "Haskell Platform"
         H.span ! class_ "hp-summary" $ "Haskell with batteries included"
+
+data HPMenuItem = Download | Contents | PriorReleases | FAQ
+  deriving (Show, Read, Eq, Ord, Enum, Bounded)
+
+hpMenuItemLabel :: HPMenuItem -> String
+hpMenuItemLabel Download = "Download"
+hpMenuItemLabel Contents = "Contents"
+hpMenuItemLabel PriorReleases = "Prior Releases"
+hpMenuItemLabel FAQ      = "FAQ"
+
+hpMenuItemURL :: HPMenuItem -> String
+hpMenuItemURL Download = "index.html"
+hpMenuItemURL Contents = "contents.html"
+hpMenuItemURL PriorReleases = "prior.html"
+hpMenuItemURL FAQ      = "faq.html"
+
+banner_with_links which = do
+    let bgimage = toValue $ "background-image: url(" ++ assetStr("logo.png") ++ ")"
+    H.div ! class_ "hp-title" $ do
+        H.span ! A.style bgimage ! class_ "hp-branding" $ "Haskell Platform"
+        H.div ! class_ "hp-navbar" $ do
+          ul $ do
+            forM_ [minBound..maxBound] $ \menuItem -> do
+              let cls = if menuItem == which then "active" else ""
+              li    ! class_ cls $ do
+                 H.a ! href (toValue (hpMenuItemURL menuItem)) $ do
+                   toMarkup (hpMenuItemLabel menuItem)
+

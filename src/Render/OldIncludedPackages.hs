@@ -10,7 +10,6 @@ import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html4.Strict.Attributes as A
 
 import Render.Base
-import Render.HaskellOrg (branding_style, hl_head, hl_footer, navbar_section, banner_left)
 
 import Data.List
 import qualified Data.List.Ordered as Ordered

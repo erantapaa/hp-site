@@ -9,7 +9,7 @@ import Text.Blaze.Html5 as H hiding (map)
 import Text.Blaze.Html4.Strict.Attributes as A
 
 import Render.Base
-import Render.HaskellOrg (branding_style, hl_head, hl_footer, navbar_section, banner_left)
+import Render.HaskellOrg (hp_stylesheet, hl_head, hl_footer, navbar_section, banner_with_links, HPMenuItem(..) )
 
 import Data.List
 
@@ -36,7 +36,7 @@ prior_releases_page doc releases =
       header = 
        do hl_head
           H.title "Prior Releases"
-          branding_style
+          hp_stylesheet
       content = 
         do H.div ! class_ "wrap" $ do
              navbar_section
@@ -45,7 +45,7 @@ prior_releases_page doc releases =
                H.div ! class_ "container" $ do
                  H.div ! class_ "row" $ do
                    H.div ! class_ "span12 col-sm-12" $ do
-                     banner_left
+                     banner_with_links PriorReleases
                   -- H.div ! class_ "span6 col-sm-6" $ do
                   -- banner_right
              -- main content

@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# Report on a list of all packages needed to install
+# all of the shared libraries referenced by the
+# shared libraries underneath the current working
+# directory.
+#
+# This will work if all referenced shared libraries 
+# already exist on the host system. 
+#
+# For missing libraries, one can use `apt-file find`.
+#
+# To setup apt-file:
+#
+#   sudo apt-get install apt-file
+#   apt-file update
+
+required_packages_using_dpkg() {
+  find . -name '*.so' |
+    while read x; do ldd $x; done |
+    sed -ne 's/ =>.*//p' |
+    sed -e 's/^[ \t]*//' |
+    sort -u | grep -v '^libHS' |
+    while read x; do dpkg -S "$x"; done |
+    sed -e 's/:.*//' |
+    sort -u
+}
+
+required_packages_using_dpkg
+

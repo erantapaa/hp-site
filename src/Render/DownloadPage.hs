@@ -193,9 +193,7 @@ download_page_for_osx' doc files = do
 hp_head = do
     link ! href  (asset "download.css") ! rel "stylesheet" ! type_ "text/css"
     link ! href "https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" ! rel "stylesheet" ! type_ "text/css"
-    H.style $ do
-      ".hp-branding { font-family: sans-serif; line-height: 50px; font-weight: bold; font-size: 50px; background-repeat: no-repeat; background-size: 70px; display: block; padding-left: 80px; background-position: left; } "
-      ".hp-summary { margin-top: 20px; display: block; font-size: 20px; }"
+    link ! href (asset "hp.css") ! rel "stylesheet" ! type_ "text/css"
     include_jquery
     script ! src (asset "download.js") $ mempty
 
@@ -221,7 +219,9 @@ banner_right = do
     " of the Platform are also available."
 
 getting_started = do
-    h2 ! A.id "get-started" $ "Welcome to Haskell!"
+    -- h2 ! A.id "get-started" $ "Welcome to Haskell!"
+    br
+    br
     p $ do
       "The Haskell Platform 8.0.1 is available in two versions:"
     H.div ! class_ "variety-wrapper" $ do

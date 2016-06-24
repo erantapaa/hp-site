@@ -9,6 +9,7 @@ import Render.Linux
 import Render.DownloadPage
 import Render.PriorReleases
 import Render.IncludedPackages
+import Render.FAQ
 import HtmlTest
 import System.Directory
 import System.FilePath
@@ -69,6 +70,7 @@ buildAllPages top = do
   copyDataFile assetdir "download.js"
   copyDataFile assetdir "logo.png"
   copyDataFile assetdir "contents.js"
+  copyDataFile assetdir "hp.css"
 
   analytics <- getDataFileName "analytics.script" >>= T.readFile
 
@@ -91,6 +93,10 @@ buildAllPages top = do
   contents_body <- getDataFileName "contents-body.html" >>= readFile
   let doc = included_packages_page contents_body emptyDoc
   saveTo top "contents.html" $ buildDoc doc
+
+  -- FAQ page
+  let doc = faq_page emptyDoc
+  saveTo top "faq.html" $ buildDoc doc
 
   return ()
 

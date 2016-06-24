@@ -1,0 +1,43 @@
+
+.hp-branding {
+  font-family: sans-serif;
+  line-height: 50px;
+  font-weight: bold;
+  font-size: 50px;
+  background-repeat: no-repeat;
+  background-size: 70px;
+  display: block;
+  padding-left: 80px;
+  background-position: left;
+}
+
+.hp-summary { margin-top: 20px; display: block; font-size: 20px; }
+
+.hp-navbar { padding-top: 10px; padding-bottom: 25px }
+
+.hp-navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.hp-navbar li {
+    float: left;
+}
+
+.hp-navbar li a {
+    display: block;
+    color: gray;
+    text-align: center;
+    padding-right: 16px;
+    text-decoration: none;
+}
+
+.hp-navbar a:hover:not(.active) {
+   color: white
+}
+
+.hp-navbar li.active a {
+  color: white
+}

@@ -13,7 +13,7 @@ build-type:          Simple
 -- extra-source-files:
 cabal-version:       >=1.10
 data-dir: assets
-data-files: logo.png, download.js, download.css, contents-body.html, analytics.script contents.js
+data-files: logo.png, download.js, download.css, contents-body.html, analytics.script contents.js hp.css
 
 library
   hs-source-dirs:      src
@@ -25,6 +25,7 @@ library
                        , Render.Windows
                        , Render.DownloadPage
                        , Render.PriorReleases
+                       , Render.FAQ
                        , NewReleaseFiles
                        , Render.IncludedPackages
                        , Build
