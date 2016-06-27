@@ -14,8 +14,20 @@ import Render.HaskellOrg (hp_stylesheet, hl_head, hl_footer, navbar_section, ban
 
 import Data.List
 import HtmlDoc
+import ParseFAQ
 
-faq_page doc = 
+{-
+renderQAs path = do
+  contents <- readFile path
+  let qapairs = parseQApairs $ onlyQABranches $ parseTree contents
+  -- create the Index section
+
+  let faq_index = concatMap
+  -- create the body
+  let faq_body = concatMap renderQApair qapairs
+-}
+
+faq_page doc =
   let d1 = appendHead doc $ do
                 hl_head
                 H.title "FAQ"
@@ -33,8 +45,13 @@ faq_page doc =
                      -- H.div ! class_ "span6 col-sm-6" $ do
                      -- banner_right
                 -- main content
-                H.h2 "FAQ"
-                "This is the FAQ."
+                H.div ! class_ "container" $ do
+                  H.h2 $ "FAQ"
+                  "If your question isn't answered here, or to report a bug, please open an issue "
+                  "in the "
+                  H.a ! href "https://github.com/haskell/haskell-platform/issues" $ "issue tracker"
+                  "."
+                  H.p $ "... This is the FAQ ..."
               hl_footer
-  in d2 
+  in d2
 

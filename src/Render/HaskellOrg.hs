@@ -86,6 +86,7 @@ banner_left = do
     H.div ! class_ "hp-title" $ do
         H.span ! A.style bgimage ! class_ "hp-branding" $ "Haskell Platform"
         H.span ! class_ "hp-summary" $ "Haskell with batteries included"
+        hpMenu Download
 
 data HPMenuItem = Download | Contents | PriorReleases | FAQ
   deriving (Show, Read, Eq, Ord, Enum, Bounded)
@@ -97,20 +98,26 @@ hpMenuItemLabel PriorReleases = "Prior Releases"
 hpMenuItemLabel FAQ      = "FAQ"
 
 hpMenuItemURL :: HPMenuItem -> String
-hpMenuItemURL Download = "index.html"
+hpMenuItemURL Download = "windows.html"
 hpMenuItemURL Contents = "contents.html"
 hpMenuItemURL PriorReleases = "prior.html"
 hpMenuItemURL FAQ      = "faq.html"
 
+-- return the Haskell Platform site menu
+hpMenu :: HPMenuItem -> Html
+hpMenu which = do
+    H.div ! class_ "hp-navbar" $ do
+      ul $ do
+        forM_ [minBound..maxBound] $ \menuItem -> do
+          let cls = if menuItem == which then "active" else ""
+          li    ! class_ cls $ do
+             H.a ! href (toValue (hpMenuItemURL menuItem)) $ do
+               toMarkup (hpMenuItemLabel menuItem)
+
 banner_with_links which = do
     let bgimage = toValue $ "background-image: url(" ++ assetStr("logo.png") ++ ")"
-    H.div ! class_ "hp-title" $ do
-        H.span ! A.style bgimage ! class_ "hp-branding" $ "Haskell Platform"
-        H.div ! class_ "hp-navbar" $ do
-          ul $ do
-            forM_ [minBound..maxBound] $ \menuItem -> do
-              let cls = if menuItem == which then "active" else ""
-              li    ! class_ cls $ do
-                 H.a ! href (toValue (hpMenuItemURL menuItem)) $ do
-                   toMarkup (hpMenuItemLabel menuItem)
+    H.div ! class_ "span12" $ do
+        H.div ! class_ "hp-title" $ do
+            H.span ! A.style bgimage ! class_ "hp-branding" $ "Haskell Platform"
+            hpMenu which
 

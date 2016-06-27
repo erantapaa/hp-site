@@ -11,6 +11,8 @@
   background-position: left;
 }
 
+.hp-title { padding-top: 22px }
+
 .hp-summary { margin-top: 20px; display: block; font-size: 20px; }
 
 .hp-navbar { padding-top: 10px; padding-bottom: 25px }

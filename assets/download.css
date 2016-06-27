@@ -239,11 +239,6 @@ ul.hashes li span {
 }
 
 /*
- * Re-position the Haskell Platform text in the banner.
- */
-.hp-title { margin-top: 22px }
-
-/*
  * Step numbering and body
  */
 .install-steps {
